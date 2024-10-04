@@ -3,7 +3,7 @@ using mazharenko.AoCAgent.Generator;
 namespace AoC.Tests;
 
 [TestFixture]
-[GenerateInputTests(2023, nameof(GetCases))]
+[GenerateInputTests(2024, nameof(GetCases))]
 internal partial class InputTests
 {
     private static IEnumerable<PartInputCaseData> GetCases()
