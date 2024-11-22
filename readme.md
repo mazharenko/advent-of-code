@@ -1,10 +1,45 @@
-# Advent of Code Agent Template
+# Advent of Code
 
-Advent of Code Template based on [Advent of Code Agent](https://github.com/mazharenko/aoc-agent) project. It has all required references, contains drafts for all 25 days and a test project.
+Here are my solutions for the [Advent of Code event](https://adventofcode.com/).
 
-It also includes a few helpful predefined ReSharper code templates:
-1. AoC Day file template
-2. AoC Day live template `aocday`
-3. AoC Part Example live template `aocex`
+## :two::zero::two::four:
 
-Compared to [aoc-agent-template](https://github.com/mazharenko/aoc-agent-template), this one assumes the repository will contain solutions for multiple years. The Agent library will know which year a day belongs to by its namespace &ndash; it must contain a segment like `YearXXXX`. Which year is run by the Agent is determined by the `[GenerateEntryPoint]` attribute on the correspondingly called class.
+
+
+## :two::zero::two::three:
+
+[aoc-2023](https://github.com/mazharenko/aoc-2023)
+
+No longer happy with notebooks. Decided to sacrifice visualization at all and focus on a different thing: on optimizing the routine when solving puzzles, namely:
+
+1. One goes to the site and downloads the input
+2. Feeds the input to the program
+3. Copy the result to the clipboard
+4. Pastes it in the browser
+5. Doh, wrong
+6. Fix, compile, run, copy, paste
+7. Doh, "You gave an answer too recently"
+8. Wait
+9. Repeat
+
+This is how I came up with the idea of [aoc-agent](https://github.com/mazharenko/aoc-agent) — a C# source generator that turns your library with actual algorithms into a self-validating, self-running console application that calculates and submits answers automatically.
+
+Again in F#. Found [Farkle](https://teo-tsirpanis.github.io/Farkle/) to be much better, still cumbersome and mind-numbing sometimes.
+
+## :two::zero::two::two:
+
+[AoC-2022](https://github.com/mazharenko/AoC-2022)
+
+More F# and more visualization in a notebook. Try [FParsec](https://github.com/stephan-tolksdorf/fparsec) to parse input. Try lenses 😱.
+
+## :two::zero::two::one:
+
+[AoC-2021](https://github.com/mazharenko/AoC-2021)
+
+Continue playing with F#. Discovered wonderful .NET Interactive notebooks. Invested into the presentation of the results: mermaid, plotly, canvas.
+
+## :two::zero::two::zero:
+
+[aoc2020](https://github.com/mazharenko/aoc2020)
+
+First time taking part in the event. As a C# developer who was reading a lot about F#, wanted to give it a try on "real" tasks. It showed to be quite suitable for many puzzles thanks to immutability and structural comparison out of the box.
