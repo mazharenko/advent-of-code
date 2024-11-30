@@ -8,20 +8,22 @@
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
     <ItemGroup>
-        <CompilerVisibleProperty Include="AoCAgent_GenerateAgent" />
+        <CompilerVisibleProperty Include="AoCAgent_GenerateAgent"/>
     </ItemGroup>
     <PropertyGroup>
         <AoCAgent_GenerateAgent>false</AoCAgent_GenerateAgent>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="mazharenko.AocAgent" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="NUnit" />
-        <PackageReference Include="NUnit3TestAdapter" />
-        <PackageReference Include="NUnit.Analyzers" />
+        <PackageReference Include="mazharenko.AocAgent"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+        <PackageReference Include="NUnit"/>
+        <PackageReference Include="NUnit3TestAdapter"/>
+        <PackageReference Include="NUnit.Analyzers"/>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\src\aoc\aoc.csproj" />
+        <ProjectReference Include="..\..\src\aoc\aoc.csproj"/>
     </ItemGroup>
-
+    <ItemGroup>
+        <Using Include="NUnit.Framework"/>
+    </ItemGroup>
 </Project>
