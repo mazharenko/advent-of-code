@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParsingExtensions\ParsingExtensions.csproj"/>
+    <ProjectReference Include="..\..\src\ParsingExtensions\ParsingExtensions.csproj"/>
   </ItemGroup>
 
 </Project>

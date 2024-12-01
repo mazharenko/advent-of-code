@@ -8,7 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="mazharenko.AocAgent" />
+    <PackageReference Include="mazharenko.AocAgent"/>
+    <PackageReference Include="Superpower"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ParsingExtensions\ParsingExtensions.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Superpower"/>
+    <Using Include="Superpower.Parsers"/>
+  </ItemGroup>
 </Project>

@@ -15,6 +15,18 @@ public class CombinatorsTests
 	}
 
 	[Test]
+	public void Lines_TrailingNewLine()
+	{
+		const string source = "2\n3\n4\r\n1\n";
+		int[] expected = [2, 3, 4, 1];
+		var parser = Numerics.IntegerInt32.Lines();
+		var result = parser.TryParse(source);
+
+		result.HasValue.Should().BeTrue();
+		result.Value.Should().BeEquivalentTo(expected);
+	}
+
+	[Test]
 	public void Blocks()
 	{
 		const string source = "2\n\n3\r\n\n4\n\r\n1";

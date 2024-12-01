@@ -5,6 +5,13 @@ namespace Superpower.Parsers;
 
 public static class SpanX
 {
+	public static TextParser<Unit> EndOfInput { get; } = input =>
+	{
+		if (input.IsAtEnd)
+			return Result.Value(Unit.Value, input, input);
+		return Result.Empty<Unit>(input, ["end of input"]);
+	};
+		
 	/// <summary>
 	/// Parse until a character not equal to SPACE (U+0020) is encountered, returning the matched span of whitespace.
 	/// </summary>
