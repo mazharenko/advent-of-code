@@ -23,6 +23,11 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\aoc\aoc.csproj"/>
     </ItemGroup>
+  <ItemGroup>
+    <None Update="inputs\*.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
     <ItemGroup>
         <Using Include="NUnit.Framework"/>
     </ItemGroup>
