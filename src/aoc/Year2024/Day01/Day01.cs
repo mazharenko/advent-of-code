@@ -10,8 +10,8 @@ internal partial class Day01
 				.Lines()
 				.Select(lines => (
 					lines.Select(x => x.Item1).ToArray(),
-					lines.Select(x => x.Item2).ToArray())
-				);
+					lines.Select(x => x.Item2).ToArray()
+				));
 
 		return parser.Parse(input);
 	}
