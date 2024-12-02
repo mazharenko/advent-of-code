@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="FluentAssertions" Version="6.12.2" />
-    <PackageVersion Include="mazharenko.AocAgent" Version="6.3.0" />
+    <PackageVersion Include="mazharenko.AocAgent" Version="6.4.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageVersion Include="morelinq" Version="4.3.0" />
     <PackageVersion Include="NUnit" Version="3.13.3" />
