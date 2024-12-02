@@ -13,7 +13,19 @@ public class CombinatorsTests
 		result.HasValue.Should().BeTrue();
 		result.Value.Should().BeEquivalentTo(expected);
 	}
+	
+	[Test]
+	public void Lines_Empty()
+	{
+		const string source = "";
+		int[] expected = [];
+		var parser = Numerics.IntegerInt32.Lines();
+		var result = parser.TryParse(source);
 
+		result.HasValue.Should().BeTrue();
+		result.Value.Should().BeEquivalentTo(expected);
+	}
+	
 	[Test]
 	public void Lines_TrailingNewLine()
 	{
@@ -26,6 +38,42 @@ public class CombinatorsTests
 		result.Value.Should().BeEquivalentTo(expected);
 	}
 
+	[Test]
+	public void Lines_Empty_TrailingNewLine()
+	{
+		const string source = "\n";
+		int[] expected = [];
+		var parser = Numerics.IntegerInt32.Lines();
+		var result = parser.TryParse(source);
+
+		result.HasValue.Should().BeTrue();
+		result.Value.Should().BeEquivalentTo(expected);
+	}
+	
+	[Test]
+	public void Lines_TrailingNewLine2()
+	{
+		const string source = "2\n3\n4\r\n1\r\n";
+		int[] expected = [2, 3, 4, 1];
+		var parser = Numerics.IntegerInt32.Lines();
+		var result = parser.TryParse(source);
+
+		result.HasValue.Should().BeTrue();
+		result.Value.Should().BeEquivalentTo(expected);
+	}
+
+
+	[Test]
+	public void Lines_Empty_TrailingNewLine2()
+	{
+		const string source = "\r\n";
+		int[] expected = [];
+		var parser = Numerics.IntegerInt32.Lines();
+		var result = parser.TryParse(source);
+
+		result.HasValue.Should().BeTrue();
+		result.Value.Should().BeEquivalentTo(expected);
+	}
 	[Test]
 	public void Blocks()
 	{

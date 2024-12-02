@@ -59,7 +59,6 @@ internal partial class Day02
 				       || Enumerable.Range(0, levels.Length).Any(i =>
 					       Safe([..levels[..i], ..levels[(i + 1)..]])
 				       );
-
 			});
 		}
 
