@@ -4,6 +4,14 @@ namespace aoc.Year2024.Day04;
 
 internal partial class Day04
 {
+	internal static int CountFormations(char[,] input, char[][,] formations)
+	{
+		return input.AsEnumerable()
+			.Sum(x =>
+				formations.Count(xmas => input.CompareFromSafe(x.i, x.j, xmas, (c, xmasc) => xmasc == '.' || xmasc == c))
+			);
+	}
+
 	internal partial class Part1
 	{
 		private readonly Example example = new(
@@ -19,70 +27,28 @@ internal partial class Day04
 			MAMMMXMMMM
 			MXMXAXMASX
 			""", 18);
-		
+
 		public int Solve(char[,] input)
 		{
-			// todo generate? rotations?
 			var xmasFormations = new[]
-			{
-				"XMAS",
-				
-				"""
-				X...
-				.M..
-				..A.
-				...S
-				""",
-				
-				"""
-				X
-				M
-				A
-				S
-				""",
-				
-				"""
-				...X
-				..M.
-				.A..
-				S...
-				""",
-				
-				"SAMX",
-				
-				"""
-				S...
-				.A..
-				..M.
-				...X
-				""",
-				
-				"""
-				S
-				A
-				M
-				X
-				""",
-				
-				"""
-				...S
-				..A.
-				.M..
-				X...
-				"""
-			}.Select(Character.Letter.Or(Character.EqualTo('.')).Map().Parse).ToArray();
+				{
+					new[]
+					{
+						"XMAS".ToCharArray(),
+					},
+					new[]
+					{
+						"X...".ToCharArray(),
+						".M..".ToCharArray(),
+						"..A.".ToCharArray(),
+						"...S".ToCharArray()
+					}
+				}.Select(M.FromJagged)
+				.SelectMany(map => new[] { map, map.RotateCw(), map.RotateCcw(), map.RotateCw().RotateCw() })
+				.ToArray();
 
-			var count = 0; // todo functional. map, fold?
-			for (var i = 0; i < input.Height(); i++)
-			for (var j = 0; j < input.Width(); j++)
-			{
-				count +=
-					xmasFormations.Count(xmas =>
-						input.CompareFromSafe(i, j, xmas, (c, xmasc) => xmasc == '.' || xmasc == c))
-					;
-			}
 
-			return count;
+			return CountFormations(input, xmasFormations);
 		}
 
 		public char[,] Parse(string input)
@@ -106,47 +72,21 @@ internal partial class Day04
 			MAMMMXMMMM
 			MXMXAXMASX
 			""", 9);
+
 		public int Solve(char[,] input)
 		{
-			// todo generate? rotations?
+			var xMas =
+				M.FromJagged([
+					"M.S".ToCharArray(),
+					".A.".ToCharArray(),
+					"M.S".ToCharArray()
+				]);
 			var xmasFormations = new[]
 			{
-				"""
-				M.S
-				.A.
-				M.S
-				""",
-				
-				"""
-				M.M
-				.A.
-				S.S
-				""",
-				
-				"""
-				S.M
-				.A.
-				S.M
-				""",
-				
-				"""
-				S.S
-				.A.
-				M.M
-				""",
-			}.Select(Character.Letter.Or(Character.EqualTo('.')).Map().Parse).ToArray();
+				xMas, xMas.RotateCw(), xMas.RotateCcw(), xMas.RotateCw().RotateCw()
+			};
 
-			var count = 0; // todo functional. map, fold?
-			for (var i = 0; i < input.Height(); i++)
-			for (var j = 0; j < input.Width(); j++)
-			{
-				count +=
-					xmasFormations.Count(xmas =>
-						input.CompareFromSafe(i, j, xmas, (c, xmasc) => xmasc == '.' || xmasc == c))
-					;
-			}
-
-			return count;
+			return CountFormations(input, xmasFormations);
 		}
 
 		public char[,] Parse(string input)
