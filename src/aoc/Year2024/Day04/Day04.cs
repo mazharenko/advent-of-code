@@ -8,7 +8,7 @@ internal partial class Day04
 	{
 		return input.AsEnumerable()
 			.Sum(x =>
-				formations.Count(xmas => input.CompareFromSafe(x.i, x.j, xmas, (c, xmasc) => xmasc == '.' || xmasc == c))
+				formations.Count(xmas => input.CompareFromSafe(x.point.X, x.point.Y, xmas, (c, xmasc) => xmasc == '.' || xmasc == c))
 			);
 	}
 
