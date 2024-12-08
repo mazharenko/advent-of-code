@@ -51,6 +51,8 @@ public static class M
 		return source[point.X, point.Y];
 	}
 	
+	public static bool Inside<T>(this T[,] source, V<int> point) => TryAt(source, point, out _);
+	
 	// todo: maybe?
 	public static bool TryAt<T>(this T[,] source, V<int> point, [MaybeNullWhen(false)] out T element)
 	{
