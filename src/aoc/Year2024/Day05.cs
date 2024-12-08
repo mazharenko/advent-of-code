@@ -29,7 +29,7 @@ internal partial class Day05
 		}
 	}
 
-	public static (Rule[] rules, Page[] pages) ParseInput(string input)
+	public (Rule[] rules, Page[] pages) Parse(string input)
 	{
 		var rulesParser =
 			Numerics.IntegerInt32.ThenIgnore(Span.EqualTo("|"))
@@ -55,8 +55,6 @@ internal partial class Day05
 				= input.pages.Where(page => input.rules.All(rule => rule.Satisfied(page)));
 			return correctPages.Select(x => x.Middle()).Sum();
 		}
-
-		public (Rule[] rules, Page[] pages) Parse(string input) => ParseInput(input);
 	}
 
 	internal partial class Part2
@@ -84,8 +82,6 @@ internal partial class Day05
 				return 0;
 			}
 		}
-
-		public (Rule[] rules, Page[] pages) Parse(string input) => ParseInput(input);
 	}
 
 	private const string ExampleInput =

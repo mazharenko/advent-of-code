@@ -4,12 +4,12 @@ internal partial class Day07
 {
 	public record Equation(long Result, long[] Operands);
 
-	private static bool CanBeTrue(Equation equation, Func<long, long, long>[] operators)
+	private bool CanBeTrue(Equation equation, Func<long, long, long>[] operators)
 	{
 		return CanBeTrue(equation.Result, equation.Operands[0], equation.Operands.AsSpan()[1..], operators);
 	}
 
-	private static bool CanBeTrue(long expectedResult, long accResult, ReadOnlySpan<long> operands, Func<long, long, long>[] operators)
+	private bool CanBeTrue(long expectedResult, long accResult, ReadOnlySpan<long> operands, Func<long, long, long>[] operators)
 	{
 		if (operands.Length == 0)
 			return expectedResult == accResult;
@@ -21,7 +21,7 @@ internal partial class Day07
 		return false;
 	}
 
-	private static Equation[] ParseEquations(string input)
+	public Equation[] Parse(string input)
 	{
 		return
 			Numerics.IntegerInt64.ThenIgnore(Span.EqualTo(": "))
@@ -51,8 +51,6 @@ internal partial class Day07
 			return equations
 				.Where(eq => CanBeTrue(eq, operators)).Sum(equation => equation.Result);
 		}
-
-		public Equation[] Parse(string input) => ParseEquations(input);
 	}
 
 	internal partial class Part2
@@ -81,7 +79,5 @@ internal partial class Day07
 			return equations
 				.Where(eq => CanBeTrue(eq, operators)).Sum(equation => equation.Result);
 		}
-
-		public Equation[] Parse(string input) => ParseEquations(input);
 	}
 }

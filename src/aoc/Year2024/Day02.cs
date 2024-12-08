@@ -11,7 +11,7 @@ internal partial class Day02
 		       || levelChanges.All(change => change is >= -3 and <= -1);
 	}
 
-	private static long[][] ParseLevels(string input)
+	public long[][] Parse(string input)
 	{
 		var parser = Numerics.IntegerInt64.ManyDelimitedBySpaces()
 			.Lines();
@@ -35,8 +35,6 @@ internal partial class Day02
 		{
 			return input.Count(Safe);
 		}
-
-		public long[][] Parse(string input) => ParseLevels(input);
 	}
 
 	internal partial class Part2
@@ -61,7 +59,5 @@ internal partial class Day02
 				       );
 			});
 		}
-
-		public long[][] Parse(string input) => ParseLevels(input);
 	}
 }

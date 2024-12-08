@@ -4,7 +4,12 @@ namespace aoc.Year2024;
 
 internal partial class Day04
 {
-	internal static int CountFormations(char[,] input, char[][,] formations)
+	public char[,] Parse(string input)
+	{
+		return Character.Letter.Map().Parse(input);
+	}
+
+	private static int CountFormations(char[,] input, char[][,] formations)
 	{
 		return input.AsEnumerable()
 			.Sum(x =>
@@ -50,11 +55,6 @@ internal partial class Day04
 
 			return CountFormations(input, xmasFormations);
 		}
-
-		public char[,] Parse(string input)
-		{
-			return Character.Letter.Map().Parse(input);
-		}
 	}
 
 	internal partial class Part2
@@ -87,11 +87,6 @@ internal partial class Day04
 			};
 
 			return CountFormations(input, xmasFormations);
-		}
-
-		public char[,] Parse(string input)
-		{
-			return Character.Letter.Map().Parse(input);
 		}
 	}
 }

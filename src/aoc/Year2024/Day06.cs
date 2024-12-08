@@ -6,6 +6,11 @@ namespace aoc.Year2024;
 
 internal partial class Day06
 {
+	public char[,] Parse(string input)
+	{
+		return Character.In('.', '#', '^').Map().Parse(input);
+	}
+
 	internal partial class Part1
 	{
 		private readonly Example example = new(
@@ -30,12 +35,6 @@ internal partial class Day06
 				.Select(x => x.pos)
 				.Distinct()
 				.Count();
-		}
-
-
-		public char[,] Parse(string input)
-		{
-			return Character.In('.', '#', '^').Map().Parse(input);
 		}
 	}
 
@@ -72,11 +71,6 @@ internal partial class Day06
 						// Duplicates is documented to be deferred and not populate the whole sequence.
 						.Duplicates().Any();
 			});
-		}
-
-		public char[,] Parse(string input)
-		{
-			return Character.In('.', '#', '^').Map().Parse(input);
 		}
 	}
 

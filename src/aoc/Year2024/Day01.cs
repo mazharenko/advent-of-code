@@ -2,7 +2,7 @@ namespace aoc.Year2024;
 
 internal partial class Day01
 {
-	private static (int[] first, int[] second) ParseBase(string input)
+	public (int[] first, int[] second) Parse(string input)
 	{
 		var parser =
 			Numerics.IntegerInt32.ThenIgnore(SpanX.Space)
@@ -28,8 +28,6 @@ internal partial class Day01
 			3   3
 			""", 11);
 
-		public (int[] first, int[] second) Parse(string input) => ParseBase(input);
-
 		public int Solve((int[] first, int[] second) input)
 		{
 			var totalDifference =
@@ -53,9 +51,6 @@ internal partial class Day01
 			3   9
 			3   3
 			""", 31);
-
-		
-		public (int[] first, int[] second) Parse(string input) => ParseBase(input);
 
 		public int Solve((int[] first, int[] second) input)
 		{
