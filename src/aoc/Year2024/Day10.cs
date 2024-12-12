@@ -1,13 +1,13 @@
 using aoc.Common;
-using MoreLinq;
+using aoc.Common.BfsImpl;
 
 namespace aoc.Year2024;
 
-internal partial class Day10 // todo: common bfs?
+internal partial class Day10
 {
 	internal partial class Part1
 	{
-		private readonly Example example = new Example(
+		private readonly Example example = new(
 			"""
 			89010123
 			78121874
@@ -25,28 +25,18 @@ internal partial class Day10 // todo: common bfs?
 
 			return trailHeads.Sum(head =>
 			{
-				var list = new HashSet<V<int>>();
-				FillVisited(input, head.point, list);
-				return list.Count;
+				var bfs =
+					Bfs.Common.StartWith(head.point)
+						.WithAdjacency(new MapAdjacency(input))
+						.WithFolder(L.Empty<V<int>>(), (acc, path) =>
+						{
+							if (input.At(path.PathList.Head.Item) == 9)
+								return (acc.Prepend(path.PathList.Head.Item), TraversalResult.Continue);
+							return (acc, TraversalResult.Continue);
+						});
+
+				return bfs.Run().Distinct().Count();
 			});
-		}
-
-		private static void FillVisited(int[,] map, V<int> curPos, HashSet<V<int>> list)
-		{
-			if (map.At(curPos) == 9)
-				list.Add(curPos);
-			var adj = new[]
-				{
-					Directions.Down(),
-					Directions.Up(),
-					Directions.Right(),
-					Directions.Left(),
-				}.Select(d => d + curPos)
-				.Where(map.Inside);
-
-			adj
-				.Where(p => map.At(p) == map.At(curPos) + 1)
-				.ForEach(p => FillVisited(map, p, list));
 		}
 
 		public int[,] Parse(string input)
@@ -74,31 +64,39 @@ internal partial class Day10 // todo: common bfs?
 		{
 			var trailHeads = input.AsEnumerable().Where(x => x.element == 0).ToArray();
 
-			return trailHeads.Sum(head => Score(input, head.point));
-		}
+			return trailHeads.Sum(head =>
+			{
+				var bfs =
+					Bfs.Common.StartWith(head.point)
+						.WithAdjacency(new MapAdjacency(input))
+						// the Adjacency guarantees that the graph search won't blow up, but we need all the paths
+						.WithoutTrackingVisited()
+						.WithFolder(0, (acc, path) =>
+						{
+							if (input.At(path.PathList.Head.Item) == 9)
+								return (acc + 1, TraversalResult.Continue);
+							return (acc, TraversalResult.Continue);
+						});
 
-		private static int Score(int[,] map, V<int> curPos)
-		{
-			if (map.At(curPos) == 9)
-				return 1;
-			var adj = new[]
-				{
-					Directions.Down(),
-					Directions.Up(),
-					Directions.Right(),
-					Directions.Left(),
-				}.Select(d => d + curPos)
-				.Where(map.Inside);
-
-			return adj
-				.Where(p => map.At(p) == map.At(curPos) + 1)
-				.Sum(p => Score(map, p));
+				return bfs.Run();
+			});
 		}
 
 		public int[,] Parse(string input)
 		{
 			return Character.Digit.Select(c => int.Parse(c.ToString()))
 				.Map().Parse(input);
+		}
+	}
+
+	public class MapAdjacency(int[,] map) : Bfs.Common.IAdjacency<V<int>>
+	{
+		public IEnumerable<(V<int> newState, int weight)> GetAdjacent(V<int> pos)
+		{// todo: special bfs case for maps 
+			return Directions.All4().Select(d => d + pos)
+				.Where(map.Inside)
+				.Where(adj => map.At(adj) == map.At(pos) + 1) // slope
+				.Select(p => (p, 1));
 		}
 	}
 }

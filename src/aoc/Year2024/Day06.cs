@@ -26,7 +26,7 @@ internal partial class Day06
 		{
 			var (guardPosition, _) = input.AsEnumerable().Single(x => x.element == '^');
 
-			return WalkUntilOutside(input, guardPosition, Directions.Up())
+			return WalkUntilOutside(input, guardPosition, Directions.Up)
 				.Select(x => x.pos)
 				.Distinct()
 				.Count();
@@ -60,13 +60,13 @@ internal partial class Day06
 		{
 			var (guardPosition, _) = input.AsEnumerable().Single(x => x.element == '^');
 			var originalVisited =
-				WalkUntilOutside(input, guardPosition, Directions.Up())
+				WalkUntilOutside(input, guardPosition, Directions.Up)
 					.Select(x => x.pos).Distinct();
 			return originalVisited.Count(obstacleCandidate =>
 			{
 				var copy = input.Map((p, cell) => p == obstacleCandidate ? '#' : cell);
 				return
-					WalkUntilOutside(copy, guardPosition, Directions.Up())
+					WalkUntilOutside(copy, guardPosition, Directions.Up)
 						// enumerable returned will sometimes be infinite and looped.
 						// as soon as we discover a duplicate, we go continue to the next obstacle candidate.
 						// Duplicates is documented to be deferred and not populate the whole sequence.
