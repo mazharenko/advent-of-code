@@ -6,6 +6,20 @@ namespace aoc.Year2024;
 
 internal partial class Day06
 {
+	private readonly Example example = new(
+		"""
+		....#.....
+		.........#
+		..........
+		..#.......
+		.......#..
+		..........
+		.#..^.....
+		........#.
+		#.........
+		......#...
+		""");
+
 	public char[,] Parse(string input)
 	{
 		return Character.In('.', '#', '^').Map().Parse(input);
@@ -13,20 +27,11 @@ internal partial class Day06
 
 	internal partial class Part1
 	{
-		private readonly Example example = new(
-			"""
-			....#.....
-			.........#
-			..........
-			..#.......
-			.......#..
-			..........
-			.#..^.....
-			........#.
-			#.........
-			......#...
-			""", 41);
-
+		public Part1()
+		{
+			Expect(example, 41);
+		}
+		
 		public int Solve(char[,] input)
 		{
 			var (guardPosition, _) = input.AsEnumerable().Single(x => x.element == '^');
@@ -40,20 +45,10 @@ internal partial class Day06
 
 	internal partial class Part2
 	{
-		private readonly Example example = new(
-			"""
-			....#.....
-			.........#
-			..........
-			..#.......
-			.......#..
-			..........
-			.#..^.....
-			........#.
-			#.........
-			......#...
-			""", 6);
-
+		public Part2()
+		{
+			Expect(example, 6);
+		}
 
 		public int Solve(char[,] input)
 		{

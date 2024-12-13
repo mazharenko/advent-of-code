@@ -6,22 +6,27 @@ namespace aoc.Year2024;
 
 internal partial class Day12
 {
+	private readonly Example example = new(
+		"""
+		RRRRIICCFF
+		RRRRIICCCF
+		VVRRRCCFFF
+		VVRCCCJFFF
+		VVVVCJJCFE
+		VVIVCCJJEE
+		VVIIICJJEE
+		MIIIIIJJEE
+		MIIISIJEEE
+		MMMISSJEEE
+		""");
+
+	public char[,] Parse(string input)
+	{
+		return Character.Letter.Map().Parse(input);
+	}
+
 	internal partial class Part1
 	{
-		private readonly Example example = new(
-			"""
-			RRRRIICCFF
-			RRRRIICCCF
-			VVRRRCCFFF
-			VVRCCCJFFF
-			VVVVCJJCFE
-			VVIVCCJJEE
-			VVIIICJJEE
-			MIIIIIJJEE
-			MIIISIJEEE
-			MMMISSJEEE
-			""", 1930);
-
 		public int Solve(char[,] input)
 		{
 			var remainingPlots = input.AsEnumerable().Select(x => x.point).ToHashSet();
@@ -29,7 +34,7 @@ internal partial class Day12
 			var price = 0;
 			while (remainingPlots.Count != 0)
 			{
-				var start = remainingPlots.First(); 
+				var start = remainingPlots.First();
 				// While traversing the graph, for each visited node, we not only determine its adjacent nodes 
 				// but also count how many of them lie outside this region.
 				var g = Bfs.Common.StartWith((plot: start, plant: input.At(start), sides: (int?)null))
@@ -44,7 +49,6 @@ internal partial class Day12
 
 						return inside.Select(x => (x, input.At(x), (int?)null))
 							.Append((p.plot, p.plant, outside.Count()));
-						
 					}).WithFolder(L.Empty<(V<int> plot, int sides)>(), (acc, path) =>
 					{
 						if (path.HeadItem.sides is null)
@@ -62,28 +66,14 @@ internal partial class Day12
 
 			return price;
 		}
-
-		public char[,] Parse(string input)
-		{
-			return Character.Letter.Map().Parse(input);
-		}
 	}
 
 	internal partial class Part2
 	{
-		private readonly Example example = new(
-			"""
-			RRRRIICCFF
-			RRRRIICCCF
-			VVRRRCCFFF
-			VVRCCCJFFF
-			VVVVCJJCFE
-			VVIVCCJJEE
-			VVIIICJJEE
-			MIIIIIJJEE
-			MIIISIJEEE
-			MMMISSJEEE
-			""", 1206);
+		public Part2()
+		{
+			Expect(example, 1206);
+		}
 
 		private readonly Example example1 = new(
 			"""
@@ -103,6 +93,7 @@ internal partial class Day12
 			ABBAAA
 			AAAAAA
 			""", 368);
+
 		private readonly Example example3 = new(
 			"""
 			AAAA
@@ -110,7 +101,7 @@ internal partial class Day12
 			BBCC
 			EEEC
 			""", 80);
-		
+
 		public int Solve(char[,] input)
 		{
 			var remainingPoints = input.AsEnumerable().ToHashSet();
@@ -135,7 +126,7 @@ internal partial class Day12
 					).Run().ToList();
 
 				var area = region.Count;
-				var extendedRegion = 
+				var extendedRegion =
 					region.SelectMany(x => Directions.All8().Append(V<int>.Zero).Select(d => d + x))
 						.Distinct().ToList();
 				// Counting corners instead of sides
@@ -147,13 +138,13 @@ internal partial class Day12
 						//  X .
 						//  . .
 						// 
-						var blockToFindCorner = new [] { x, Directions.W + x, Directions.S + x, Directions.SW + x };
+						var blockToFindCorner = new[] { x, Directions.W + x, Directions.S + x, Directions.SW + x };
 						var pointsFoundInBlock = blockToFindCorner.Where(l => region.Contains(l)).ToList();
 						return pointsFoundInBlock switch
 						{
 							//   A .   . .   . .   . A   A A   A .   . A   A A     
 							//   . .   A .   . A   . .   A .   A A   A A   . A     
-							{Count: 1 or 3} => 1,
+							{ Count: 1 or 3 } => 1,
 							//  A .    . A 
 							//  . A    A . 
 							[var found1, var found2] when found1.MLen(found2) == 2 => 2,
@@ -170,11 +161,6 @@ internal partial class Day12
 			}
 
 			return price;
-		}
-
-		public char[,] Parse(string input)
-		{
-			return Character.Letter.Map().Parse(input);
 		}
 	}
 }

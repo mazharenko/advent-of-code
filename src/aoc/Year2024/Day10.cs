@@ -4,20 +4,24 @@ using aoc.Common.BfsImpl;
 namespace aoc.Year2024;
 
 internal partial class Day10
-{
+{	private readonly Example example = new(
+ 			"""
+ 			89010123
+ 			78121874
+ 			87430965
+ 			96549874
+ 			45678903
+ 			32019012
+ 			01329801
+ 			10456732
+ 			""");
+
 	internal partial class Part1
 	{
-		private readonly Example example = new(
-			"""
-			89010123
-			78121874
-			87430965
-			96549874
-			45678903
-			32019012
-			01329801
-			10456732
-			""", 36);
+		public Part1()
+		{
+			Expect(example, 36);
+		}
 
 		public int Solve(int[,] input)
 		{
@@ -48,17 +52,10 @@ internal partial class Day10
 
 	internal partial class Part2
 	{
-		private readonly Example example = new(
-			"""
-			89010123
-			78121874
-			87430965
-			96549874
-			45678903
-			32019012
-			01329801
-			10456732
-			""", 81);
+		public Part2()
+		{
+			Expect(example, 81);
+		}
 
 		public int Solve(int[,] input)
 		{

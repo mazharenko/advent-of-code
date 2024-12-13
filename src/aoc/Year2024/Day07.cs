@@ -2,6 +2,28 @@ namespace aoc.Year2024;
 
 internal partial class Day07
 {
+	private readonly Example example = new(
+		"""
+		190: 10 19
+		3267: 81 40 27
+		83: 17 5
+		156: 15 6
+		7290: 6 8 6 15
+		161011: 16 10 13
+		192: 17 8 14
+		21037: 9 7 18 13
+		292: 11 6 16 20
+		""");
+
+	public Equation[] Parse(string input)
+	{
+		return
+			Numerics.IntegerInt64.ThenIgnore(Span.EqualTo(": "))
+				.Then(Numerics.IntegerInt64.ManyDelimitedBySpaces())
+				.Select((res, operands) => new Equation(res, operands))
+				.Lines().Parse(input);
+	}
+
 	public record Equation(long Result, long[] Operands);
 
 	private bool CanBeTrue(Equation equation, Func<long, long, long>[] operators)
@@ -21,29 +43,12 @@ internal partial class Day07
 		return false;
 	}
 
-	public Equation[] Parse(string input)
-	{
-		return
-			Numerics.IntegerInt64.ThenIgnore(Span.EqualTo(": "))
-				.Then(Numerics.IntegerInt64.ManyDelimitedBySpaces())
-				.Select((res, operands) => new Equation(res, operands))
-				.Lines().Parse(input);
-	}
-
+	
 	internal partial class Part1
 	{
-		private readonly Example example = new(
-			"""
-			190: 10 19
-			3267: 81 40 27
-			83: 17 5
-			156: 15 6
-			7290: 6 8 6 15
-			161011: 16 10 13
-			192: 17 8 14
-			21037: 9 7 18 13
-			292: 11 6 16 20
-			""", 3749);
+		public Part1()
+		{
+		}
 
 		public long Solve(Equation[] equations)
 		{
@@ -55,18 +60,10 @@ internal partial class Day07
 
 	internal partial class Part2
 	{
-		private readonly Example example = new(
-			"""
-			190: 10 19
-			3267: 81 40 27
-			83: 17 5
-			156: 15 6
-			7290: 6 8 6 15
-			161011: 16 10 13
-			192: 17 8 14
-			21037: 9 7 18 13
-			292: 11 6 16 20
-			""", 11387);
+		public Part2()
+		{
+			Expect(example, 11387);
+		}
 
 		public long Solve(Equation[] equations)
 		{

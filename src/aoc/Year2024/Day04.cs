@@ -4,6 +4,19 @@ namespace aoc.Year2024;
 
 internal partial class Day04
 {
+	private readonly Example example = new(
+		"""
+		MMMSXXMASM
+		MSAMXMSMSA
+		AMXSXMAAMM
+		MSAMASMSMX
+		XMASAMXAMM
+		XXAMMXXAMA
+		SMSMSASXSS
+		SAXAMASAAA
+		MAMMMXMMMM
+		MXMXAXMASX
+		""");
 	public char[,] Parse(string input)
 	{
 		return Character.Letter.Map().Parse(input);
@@ -19,19 +32,10 @@ internal partial class Day04
 
 	internal partial class Part1
 	{
-		private readonly Example example = new(
-			"""
-			MMMSXXMASM
-			MSAMXMSMSA
-			AMXSXMAAMM
-			MSAMASMSMX
-			XMASAMXAMM
-			XXAMMXXAMA
-			SMSMSASXSS
-			SAXAMASAAA
-			MAMMMXMMMM
-			MXMXAXMASX
-			""", 18);
+		public Part1()
+		{
+			Expect(example, 18);
+		}
 
 		public int Solve(char[,] input)
 		{
@@ -59,19 +63,10 @@ internal partial class Day04
 
 	internal partial class Part2
 	{
-		private readonly Example example = new(
-			"""
-			MMMSXXMASM
-			MSAMXMSMSA
-			AMXSXMAAMM
-			MSAMASMSMX
-			XMASAMXAMM
-			XXAMMXXAMA
-			SMSMSASXSS
-			SAXAMASAAA
-			MAMMMXMMMM
-			MXMXAXMASX
-			""", 9);
+		public Part2()
+		{
+			Expect(example, 9);
+		}
 
 		public int Solve(char[,] input)
 		{

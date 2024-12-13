@@ -4,6 +4,16 @@ namespace aoc.Year2024;
 
 internal partial class Day02
 {
+	private readonly Example example = new(
+		"""
+		7 6 4 2 1
+		1 2 7 8 9
+		9 7 6 2 1
+		1 3 2 4 5
+		8 6 4 4 1
+		1 3 6 7 9
+		""");
+	
 	private static bool Safe(IEnumerable<long> levels)
 	{
 		var levelChanges = levels.Pairwise((x, y) => x - y).ToArray();
@@ -21,15 +31,10 @@ internal partial class Day02
 
 	internal partial class Part1
 	{
-		private readonly Example example = new(
-			"""
-			7 6 4 2 1
-			1 2 7 8 9
-			9 7 6 2 1
-			1 3 2 4 5
-			8 6 4 4 1
-			1 3 6 7 9
-			""", 2);
+		public Part1()
+		{
+			Expect(example, 2);
+		}
 
 		public int Solve(long[][] input)
 		{
@@ -39,15 +44,10 @@ internal partial class Day02
 
 	internal partial class Part2
 	{
-		private readonly Example example = new(
-			"""
-			7 6 4 2 1
-			1 2 7 8 9
-			9 7 6 2 1
-			1 3 2 4 5
-			8 6 4 4 1
-			1 3 6 7 9
-			""", 4);
+		public Part2()
+		{
+			Expect(example, 4);
+		}
 
 		public int Solve(long[][] input)
 		{

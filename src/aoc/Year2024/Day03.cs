@@ -38,7 +38,7 @@ internal partial class Day03
 					{
 						"do()" => (true, x.sum),
 						"don't()" => (false, x.sum),
-						_ => x.enabled 
+						_ => x.enabled
 							? (true, x.sum + int.Parse(match.Groups["operand1"].Value) * int.Parse(match.Groups["operand2"].Value))
 							: x
 					}).sum;

@@ -2,6 +2,16 @@ namespace aoc.Year2024;
 
 internal partial class Day01
 {
+	private readonly Example example = new(
+		"""
+		3   4
+		4   3
+		2   5
+		1   3
+		3   9
+		3   3
+		""");
+	
 	public (int[] first, int[] second) Parse(string input)
 	{
 		var parser =
@@ -18,15 +28,10 @@ internal partial class Day01
 
 	internal partial class Part1
 	{
-		private readonly Example example = new(
-			"""
-			3   4
-			4   3
-			2   5
-			1   3
-			3   9
-			3   3
-			""", 11);
+		public Part1()
+		{
+			Expect(example, 11);
+		}
 
 		public int Solve((int[] first, int[] second) input)
 		{
@@ -42,15 +47,10 @@ internal partial class Day01
 
 	internal partial class Part2
 	{
-		private readonly Example example = new(
-			"""
-			3   4
-			4   3
-			2   5
-			1   3
-			3   9
-			3   3
-			""", 31);
+		public Part2()
+		{
+			Expect(example, 31);
+		}
 
 		public int Solve((int[] first, int[] second) input)
 		{

@@ -1,17 +1,7 @@
 namespace aoc.Year2024;
 
 internal static class ListExtensions
-{
-	public static IEnumerable<LinkedListNode<T>> ToEnumerable<T>(this LinkedList<T> list)
-	{
-		var node = list.First;
-		while (node != null)
-		{
-			yield return node;
-			node = node.Next;
-		}
-	}
-
+{	
 	public static IEnumerable<LinkedListNode<T>> ToEnumerable<T>(this LinkedListNode<T> from)
 	{
 		var node = from;
@@ -35,6 +25,14 @@ internal static class ListExtensions
 
 internal partial class Day09
 {
+	public int[] Parse(string input)
+	{
+		return
+			Character.Digit.Select(c => int.Parse(c.ToString()))
+				.Many()
+				.Parse(input);
+	}
+
 	private record MemoryBlock(int? Id)
 	{
 		public required int Length { get; set; }
@@ -96,14 +94,6 @@ internal partial class Day09
 			var checksum = Checksum(memoryList);
 			return checksum;
 		}
-
-		public int[] Parse(string input)
-		{
-			return
-				Character.Digit.Select(c => int.Parse(c.ToString()))
-					.Many()
-					.Parse(input);
-		}
 	}
 
 	internal partial class Part2
@@ -164,23 +154,7 @@ internal partial class Day09
 			}
 
 			var checksum = Checksum(memoryList);
-			// var checksum = memoryList
-			// 	.Aggregate((acc: 0L, pos: 0L), (state, b) =>
-			// 	{
-			// 		if (b.Id.HasValue)
-			// 			return (state.acc + (long)b.Id.Value * ((((long)2*state.pos + b.Length - 1)  ) * b.Length/2), state.pos + b.Length);
-			// 		return (state.acc, state.pos + b.Length);
-			// 	}).acc;
-//			return forCheckSum.Select((x, i) => (long)x * i).Sum();
 			return checksum;
-		}
-
-		public int[] Parse(string input)
-		{
-			return
-				Character.Digit.Select(c => int.Parse(c.ToString()))
-					.Many()
-					.Parse(input);
 		}
 	}
 }

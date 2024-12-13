@@ -47,8 +47,11 @@ internal partial class Day05
 
 	internal partial class Part1
 	{
-		private readonly Example example = new(ExampleInput, 143);
-
+		public Part1()
+		{
+			Expect(example, 143);
+		}
+		
 		public int Solve((Rule[] rules, Page[] pages) input)
 		{
 			var correctPages 
@@ -59,7 +62,10 @@ internal partial class Day05
 
 	internal partial class Part2
 	{
-		private readonly Example example = new(ExampleInput, 123);
+		public Part2()
+		{
+			Expect(example, 123);
+		}
 
 		public int Solve((Rule[] rules, Page[] pages) input)
 		{
@@ -84,7 +90,7 @@ internal partial class Day05
 		}
 	}
 
-	private const string ExampleInput =
+	private readonly Example example = new(
 		"""
 		47|53
 		97|13
@@ -114,5 +120,5 @@ internal partial class Day05
 		75,97,47,61,53
 		61,13,29
 		97,13,75,29,47
-		""";
+		""");
 }
