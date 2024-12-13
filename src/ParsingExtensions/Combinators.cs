@@ -112,6 +112,16 @@ public static partial class Combinators
 		return parser.ManyDelimitedBy(SpanX.NewLine).TrimTrailingNewLine();
 	}
 
+	public static TextParser<(T, U)> ThenLine<T, U>(this TextParser<T> first, TextParser<U> second)
+	{
+		return first.ThenIgnore(SpanX.NewLine).Then(second);
+	}
+
+	public static TextParser<U> ThenLine<T, U>(this TextParser<T> first, Func<T, TextParser<U>> second)
+	{
+		return first.ThenIgnore(SpanX.NewLine).Then(second);
+	}
+	
 	public static TextParser<T> ThenIgnore<T, U>(this TextParser<T> first, TextParser<U> second)
 	{
 		return first.Then(x => second.Select(_ => x));
@@ -119,7 +129,7 @@ public static partial class Combinators
 
 	public static TextParser<T[]> Blocks<T>(this TextParser<T> parser)
 	{
-		return parser.Block().Many();
+		return parser.Block().TrimTrailingNewLine().Many();
 	}
 
 	/// <summary>
