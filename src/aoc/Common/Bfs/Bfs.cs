@@ -28,13 +28,6 @@ public static class Bfs
 			public IEnumerable<(T newState, int weight)> GetAdjacent(T pos) => function(pos);
 		}
 
-		public delegate bool Target<in T>(T state); // ITarget?
-
-		public static class Targets
-		{
-			public static Target<T> Value<T>(T value) 
-				=> state => Equals(value, state);
-		}
 
 		public static BfsBuilder<T> StartWith<T>(T start)
 		{

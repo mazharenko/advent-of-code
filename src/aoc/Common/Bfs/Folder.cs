@@ -48,17 +48,6 @@ public class AdhocFold<T, TRes>(Func<TRes, Path<T>, (TRes, TraversalResult)> fun
 	 => function(acc, path);
 }
 
-public class SearchFold<T>(Bfs.Common.Target<T> target) : IFold<T, Result<T>>
-{
-	public (Result<T>, TraversalResult) Fold(Result<T> acc, Path<T> path)
-	{
-		var (current, _) = path.PathList;
-		if (target(current.Item))
-			return (new Found<T>(path), TraversalResult.Interrupt);
-		return (new NotFound<T>(), TraversalResult.Continue);
-	}
-}
-
 public enum TraversalResult
 {
 	Continue,

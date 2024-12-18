@@ -10,7 +10,7 @@ public static class L
 	public static L<T> Create<T>(IList<T> values) => L<T>.Create(values);
 } 
 
-public record L<T> : IEnumerable<T> // todo: Equality?
+public record L<T> : IEnumerable<T>
 {
 	private readonly T? value;
 	private readonly L<T>? tail;
@@ -61,6 +61,7 @@ public record L<T> : IEnumerable<T> // todo: Equality?
 	}
 
 	public T Head => empty ? throw new InvalidOperationException("List is empty") : value!;
+	public L<T>? Tail => tail;
 	
 	public bool IsEmpty => empty;
 
@@ -71,4 +72,15 @@ public record L<T> : IEnumerable<T> // todo: Equality?
 		tail1 = tail;
 	}
 
+	public virtual bool Equals(L<T>? other)
+	{
+		if (other is null) return false;
+		if (ReferenceEquals(this, other)) return true;
+		return EqualityComparer<T?>.Default.Equals(value, other.value) && Equals(tail, other.tail) && empty == other.empty;
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(value, tail, empty);
+	}
 }
