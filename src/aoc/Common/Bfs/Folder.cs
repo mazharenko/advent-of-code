@@ -12,27 +12,32 @@ public class Folder<T, TKey, TRes>(T start, Bfs.Common.IAdjacency<T> adjacency, 
 		return Fold(seed, visited, queue);
 	}
 
-	private TRes Fold(TRes state, HashSet<TKey?> visited, PriorityQueue<Path<T>,int> queue)
+	private TRes Fold(TRes state, HashSet<TKey?> visited, PriorityQueue<Path<T>, int> queue)
 	{
-		if (queue.Count == 0)
-			return state;
-		var currentPath = queue.Dequeue();
-		var current = currentPath.PathList.Head;
-		switch (folder.Fold(state, currentPath))
+		while (true)
 		{
-			case (var newState, TraversalResult.Interrupt):
-				return newState;
-			case (var newState, TraversalResult.Continue):
-				var adjacent = adjacency.GetAdjacent(current.Item);
-				foreach (var (adjacentValue, weight) in adjacent)
-				{
-					var key = visitedKey(adjacentValue);
-					if (key is null || visited.Add(key))
-						queue.Enqueue(new Path<T>(currentPath.PathList.Prepend(new PathItem<T>(adjacentValue, current.Len + weight))), weight);
-				}
+			if (queue.Count == 0) return state;
+			var currentPath = queue.Dequeue();
+			var current = currentPath.PathList.Head;
+			switch (folder.Fold(state, currentPath))
+			{
+				case (var newState, TraversalResult.Interrupt):
+					return newState;
+				case (var newState, TraversalResult.Continue):
+					var adjacent = adjacency.GetAdjacent(current.Item);
+					foreach (var (adjacentValue, weight) in adjacent)
+					{
+						var key = visitedKey(adjacentValue);
+						if (key is null || visited.Add(key)) queue.Enqueue(new Path<T>(currentPath.PathList.Prepend(new PathItem<T>(adjacentValue, current.Len + weight))), weight);
+					}
 
-				return Fold(newState, visited, queue);
-			default: throw new InvalidOperationException();
+					state = newState;
+					continue;
+				default:
+					throw new InvalidOperationException();
+			}
+
+			break;
 		}
 	}
 }
