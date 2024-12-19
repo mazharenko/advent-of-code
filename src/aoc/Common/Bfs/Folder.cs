@@ -28,7 +28,7 @@ public class Folder<T, TKey, TRes>(T start, Bfs.Common.IAdjacency<T> adjacency, 
 					foreach (var (adjacentValue, weight) in adjacent)
 					{
 						var key = visitedKey(adjacentValue);
-						if (key is null || visited.Add(key)) queue.Enqueue(new Path<T>(currentPath.PathList.Prepend(new PathItem<T>(adjacentValue, current.Len + weight))), weight);
+						if (key is null || visited.Add(key)) queue.Enqueue(new Path<T>(currentPath.PathList.Prepend(new PathItem<T>(adjacentValue, current.Len + weight))), current.Len + weight);
 					}
 
 					state = newState;
