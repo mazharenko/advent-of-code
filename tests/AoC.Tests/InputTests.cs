@@ -48,5 +48,7 @@ internal partial class InputTests
 		yield return new PartInputCaseData(19, 2, "841533074412361");
 		yield return new PartInputCaseData(20, 1, "1490");
 		yield return new PartInputCaseData(20, 2, "1011325");
+		yield return new PartInputCaseData(21, 1, "169390");
+		yield return new PartInputCaseData(21, 2, "210686850124870");
 	}
 }
