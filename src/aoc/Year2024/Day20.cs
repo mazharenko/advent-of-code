@@ -1,5 +1,5 @@
 using aoc.Common;
-using aoc.Common.BfsImpl;
+using aoc.Common.Search;
 using mazharenko.AoCAgent.Generator;
 
 namespace aoc.Year2024;
@@ -25,28 +25,18 @@ internal partial class Day20
 
 		var start = map.AsEnumerable().Single(x => x.element == 'S').point;
 		var end = map.AsEnumerable().Single(x => x.element == 'E').point;
-		
-		var forward = Bfs.Common.StartWith(start)
+
+		var forward = Bfs.StartWith(start)
 			.WithAdjacency(x =>
 				Directions.All4().Select(d => d + x)
 					.Where(y => map.At(y) != '#'))
-			.WithFolder(new Dictionary<V<int>, int>(), (acc, path) =>
-			{
-				// todo: I need bfs as a sequence generator!!!
-				acc[path.HeadItem] = path.PathList.Head.Len;
-				return (acc, TraversalResult.Continue);
-			}).Run();
+			.ToDictionary(path => path.HeadItem, path => path.Len);
 
-		var backward = Bfs.Common.StartWith(end)
+		var backward = Bfs.StartWith(end)
 			.WithAdjacency(x =>
 				Directions.All4().Select(d => d + x)//todo: extension
 					.Where(y => map.At(y) != '#'))
-			.WithFolder(new Dictionary<V<int>, int>(), (acc, path) =>
-			{
-				// todo: I need bfs as an enumerator!!!
-				acc[path.HeadItem] = path.PathList.Head.Len;
-				return (acc, TraversalResult.Continue);
-			}).Run();
+			.ToDictionary(path => path.HeadItem, path => path.Len);
 
 		var noShortcutsPath = forward[end];
 

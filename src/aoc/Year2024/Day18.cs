@@ -1,5 +1,5 @@
 using aoc.Common;
-using aoc.Common.BfsImpl;
+using aoc.Common.Search;
 using mazharenko.AoCAgent.Generator;
 
 namespace aoc.Year2024;
@@ -9,7 +9,7 @@ internal partial class Day18
 {
 	private static Result<V<int>> RunSearch(HashSet<V<int>> blockingBytes)
 	{
-		return Bfs.Common.StartWith(V.Create(0, 0))
+		return Bfs.StartWith(V.Create(0, 0))
 			.WithAdjacency(pos =>
 			{
 				return Directions.All4()
@@ -17,8 +17,7 @@ internal partial class Day18
 					.Where(x => !blockingBytes.Contains(x))
 					.Where(x => x is { X: >= 0 and <= 70, Y: >= 0 and <= 70 })
 					.ToArray();
-			}).WithTarget(Targets.Value(V.Create(70, 70)))
-			.Run();
+			}).TryFindTarget(Targets.Value(V.Create(70, 70)));
 	}
 
 	public V<int>[] Parse(string input)
@@ -34,14 +33,7 @@ internal partial class Day18
 		public int Solve(V<int>[] input)
 		{
 			var blockingBytes = input.Take(1024).ToHashSet();
-
-			var bs = RunSearch(blockingBytes);
-
-			return bs switch
-			{
-				// todo: expose Len
-				Found<V<int>> found => found.Path.PathList.Count() - 1
-			};
+			return RunSearch(blockingBytes).AsFound().Len;
 		}
 	}
 
@@ -49,7 +41,6 @@ internal partial class Day18
 	{
 		public string Solve(V<int>[] input)
 		{
-			// todo: maybe collect all paths to target with Dijkstra and then remove the paths one by one containing the byte under consideration
 			var blockingBytes = input.Take(1024).ToHashSet();
 			var wonPositions = new HashSet<V<int>>();
 
@@ -58,9 +49,8 @@ internal partial class Day18
 				blockingBytes.Add(anotherByte);
 				if (wonPositions.Count != 0 && !wonPositions.Contains(anotherByte))
 					continue;
-				
-				var bs = RunSearch(blockingBytes);
-				switch (bs)
+
+				switch (RunSearch(blockingBytes))
 				{
 					case Found<V<int>> (var path):
 						wonPositions.UnionWith(path.PathList.Select(pi => pi.Item));

@@ -1,5 +1,5 @@
 using aoc.Common;
-using aoc.Common.BfsImpl;
+using aoc.Common.Search;
 using MoreLinq;
 
 namespace aoc.Year2024;
@@ -37,31 +37,27 @@ internal partial class Day12
 				var start = remainingPlots.First();
 				// While traversing the graph, for each visited node, we not only determine its adjacent nodes 
 				// but also count how many of them lie outside this region.
-				var g = Bfs.Common.StartWith((plot: start, plant: input.At(start), sides: (int?)null))
+				var region = Bfs.StartWith((plot: start, plant: input.At(start), sides: (int?)null))
 					.WithAdjacency(p =>
 					{
 						var dirs = Directions.All4();
-
 						var allAdj = dirs.Select(d => d + p.plot).ToList();
-
 						var (inside, outside) =
 							allAdj.Partition(adj => input.TryAt(adj, out var adjValue) && adjValue == p.plant);
 
 						return inside.Select(x => (x, input.At(x), (int?)null))
 							.Append((p.plot, p.plant, outside.Count()));
-					}).WithFolder(L.Empty<(V<int> plot, int sides)>(), (acc, path) =>
-					{
-						if (path.HeadItem.sides is null)
-							return (acc, TraversalResult.Continue);
-						return (acc.Prepend((path.HeadItem.plot, path.HeadItem.sides.Value)), TraversalResult.Continue);
-					}).Run().ToList();
+					}).Items()
+					.Where(x => x.sides is not null)
+					.Select(x => (x.plot, sides: x.sides!.Value))
+					.ToList();
 
-				var area = g.Select(x => x.plot).Count();
-				var perimeter = g.Sum(x => x.sides);
+				var area = region.Select(x => x.plot).Count();
+				var perimeter = region.Sum(x => x.sides);
 
 				price += area * perimeter;
 
-				remainingPlots.ExceptWith(g.Select(x => x.plot));
+				remainingPlots.ExceptWith(region.Select(x => x.plot));
 			}
 
 			return price;
@@ -109,21 +105,17 @@ internal partial class Day12
 			var price = 0;
 			while (remainingPoints.Count != 0)
 			{
-				var start = (remainingPoints.First().point, el: remainingPoints.First().element);
-				var region = Bfs.Common.StartWith(start)
+				var start = remainingPoints.First().point;
+				var region = Bfs.StartWith(start)
 					.WithAdjacency(p =>
 					{
 						var dirs = Directions.All4();
 
-						return dirs.Select(d => d + p.point)
-							.Where(input.Inside)
-							.Select(adj => (adj, input.At(adj)))
-							.Where(adj => adj.Item2 == p.el);
+						return dirs.Select(d => d + p)
+							.Where(adj => input.TryAt(adj, out var adjValue)
+							              && adjValue == input.At(p));
 					})
-					.WithVisitedKey(x => x.point)
-					.WithFolder(L.Empty<V<int>>(),
-						(acc, path) => (acc.Prepend(path.HeadItem.point), TraversalResult.Continue)
-					).Run().ToList();
+					.Items().ToList();
 
 				var area = region.Count;
 				var extendedRegion =
