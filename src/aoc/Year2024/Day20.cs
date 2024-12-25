@@ -18,7 +18,7 @@ internal partial class Day20
 			map.AsEnumerable().Where(x => x.element != '#')
 				.SelectMany(x =>
 					map.AsEnumerable().Where(y => y.element != '#')
-						.Where(y => x.point.MLen(y.point) <= shortcutLength)
+						.Where(y => x.point.MDist(y.point) <= shortcutLength)
 						.Select(y => (start: x.point, end: y.point))
 				)
 				.ToList();
@@ -42,7 +42,7 @@ internal partial class Day20
 
 		return shortcuts.Count(shortcut =>
 			noShortcutsPath
-			- (shortcut.start.MLen(shortcut.end) + forward[shortcut.start] + backward[shortcut.end]) >= 100);
+			- (shortcut.start.MDist(shortcut.end) + forward[shortcut.start] + backward[shortcut.end]) >= 100);
 	}
 
 	internal partial class Part1

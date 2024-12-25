@@ -19,7 +19,7 @@ public static class V
 	public static V<T> RotateCcw<T>(this V<T> v) where T : INumber<T>
 		=> Create(-v.Y, v.X);
 
-	public static T MLen<T>(this V<T> v1, V<T> v2) where T : INumber<T>
+	public static T MDist<T>(this V<T> v1, V<T> v2) where T : INumber<T>
 	{
 		return T.Abs(v1.X - v2.X) + T.Abs(v1.Y - v2.Y);
 	}

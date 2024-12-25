@@ -139,7 +139,7 @@ internal partial class Day12
 							{ Count: 1 or 3 } => 1,
 							//  A .    . A 
 							//  . A    A . 
-							[var found1, var found2] when found1.MLen(found2) == 2 => 2,
+							[var found1, var found2] when found1.MDist(found2) == 2 => 2,
 							//  A A   A A   . A   . .   A .   . . 
 							//  A A   . .   . A   A A   A .   . . 
 							_ => 0
