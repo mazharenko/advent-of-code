@@ -26,13 +26,13 @@ internal partial class Day20
 		var start = map.AsEnumerable().Single(x => x.element == 'S').point;
 		var end = map.AsEnumerable().Single(x => x.element == 'E').point;
 
-		var forward = Bfs.StartWith(start)
+		var forward = Dijkstra.StartWith(start)
 			.WithAdjacency(x =>
 				Directions.All4().Select(d => d + x)
 					.Where(y => map.At(y) != '#'))
 			.ToDictionary(path => path.HeadItem, path => path.Len);
 
-		var backward = Bfs.StartWith(end)
+		var backward = Dijkstra.StartWith(end)
 			.WithAdjacency(x =>
 				Directions.All4().Select(d => d + x)//todo: extension
 					.Where(y => map.At(y) != '#'))

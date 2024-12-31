@@ -9,7 +9,7 @@ internal partial class Day18
 {
 	private static Result<V<int>> RunSearch(HashSet<V<int>> blockingBytes)
 	{
-		return Bfs.StartWith(V.Create(0, 0))
+		return Dijkstra.StartWith(V.Create(0, 0))
 			.WithAdjacency(pos =>
 			{
 				return Directions.All4()

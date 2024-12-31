@@ -32,7 +32,7 @@ internal partial class Day10
 			return trailHeads.Sum(head =>
 			{
 				return 
-					Bfs.StartWith(head.point)
+					Dijkstra.StartWith(head.point)
 						.WithAdjacency(new MapAdjacency(input))
 						.Items()
 						.Where(p => input.At(p) == 9)
@@ -61,11 +61,12 @@ internal partial class Day10
 
 			return trailHeads.Sum(head =>
 			{
-				return Bfs
+				return Dijkstra
 					.StartWith(head.point)
 					// the Adjacency guarantees that the graph search won't blow up, but we need all the paths
-					.WithoutTrackingVisited()
+					//.WithoutTrackingVisited()
 					.WithAdjacency(new MapAdjacency(input))
+					.WithoutRelaxation()
 					.Items()
 					.Count(p => input.At(p) == 9);
 			});

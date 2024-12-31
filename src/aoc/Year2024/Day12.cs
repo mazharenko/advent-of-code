@@ -37,7 +37,7 @@ internal partial class Day12
 				var start = remainingPlots.First();
 				// While traversing the graph, for each visited node, we not only determine its adjacent nodes 
 				// but also count how many of them lie outside this region.
-				var region = Bfs.StartWith((plot: start, plant: input.At(start), sides: (int?)null))
+				var region = Dijkstra.StartWith((plot: start, plant: input.At(start), sides: (int?)null))
 					.WithAdjacency(p =>
 					{
 						var dirs = Directions.All4();
@@ -106,7 +106,7 @@ internal partial class Day12
 			while (remainingPoints.Count != 0)
 			{
 				var start = remainingPoints.First().point;
-				var region = Bfs.StartWith(start)
+				var region = Dijkstra.StartWith(start)
 					.WithAdjacency(p =>
 					{
 						var dirs = Directions.All4();

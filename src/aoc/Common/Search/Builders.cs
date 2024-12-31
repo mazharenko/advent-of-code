@@ -1,23 +1,18 @@
 namespace aoc.Common.Search;
 
-public class BfsBuilder<T, TVisitedKey>(T start, Func<T, TVisitedKey>? visitedKeyFunction)
+public class DijkstraBuilder<T, TKey>(T start, Func<T, TKey> keyFunction) where T : notnull where TKey : notnull
 {
-	public BfsBuilder<T, TNewKey> WithVisitedKey<TNewKey>(Func<T, TNewKey> visited)
+	public DijkstraBuilder<T, TNewKey> WithKey<TNewKey>(Func<T, TNewKey> key) where TNewKey : notnull
 	{
-		return new BfsBuilder<T, TNewKey>(start, visited);
+		return new DijkstraBuilder<T, TNewKey>(start, key);
 	}
-
-	public BfsBuilder<T, object> WithoutTrackingVisited()
-	{
-		return new BfsBuilder<T, object>(start, null);
-	}
-
-	public Bfs<T, TVisitedKey> WithAdjacency(Func<T, (T newState, int weight)[]> adjacency)
+	
+	public Dijkstra<T, TKey> WithAdjacency(Func<T, IEnumerable<(T newState, int weight)>> adjacency)
 		=> WithAdjacency(new AdhocAdjacency<T>(adjacency));
 
-	public Bfs<T, TVisitedKey> WithAdjacency(Func<T, IEnumerable<T>> adjacency)
+	public Dijkstra<T, TKey> WithAdjacency(Func<T, IEnumerable<T>> adjacency)
 		=> WithAdjacency(new AdhocAdjacency<T>(state => adjacency(state).Select(newState => (newState, 1))));
 
-	public Bfs<T, TVisitedKey> WithAdjacency(IAdjacency<T> adjacency)
-		=> new(start, adjacency, visitedKeyFunction);
+	public Dijkstra<T, TKey> WithAdjacency(IAdjacency<T> adjacency)
+		=> new(start, adjacency, keyFunction);
 }

@@ -15,6 +15,11 @@ public static class PathEnumerableExtensions
 	{
 		return paths.First(path => target(path.HeadItem));
 	}
+	
+	public static IEnumerable<Path<T>> FindTarget<T>(this IEnumerable<(T node, List<Path<T>> paths)> paths, Target<T> target)
+	{
+		return paths.First(path => target(path.node)).paths;
+	} // todo: TryFindTarget
 
 	public static Result<T> TryFindTarget<T>(this IEnumerable<Path<T>> paths, Target<T> target)
 	{
