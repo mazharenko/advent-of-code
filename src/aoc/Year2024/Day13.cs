@@ -1,5 +1,6 @@
 using aoc.Common;
 using Microsoft.Z3;
+using ParsingExtensions;
 
 namespace aoc.Year2024;
 
@@ -27,23 +28,15 @@ internal partial class Day13
 	public (V<int> a, V<int> b, V<long>prize)[] Parse(string input)
 	{
 		var parser =
-			Span.EqualTo("Button A: X+")
-				.IgnoreThen(Numerics.IntegerInt32)
-				.ThenIgnore(Span.EqualTo(", Y+"))
-				.Then(Numerics.IntegerInt32)
+			Template.Matching<int, int>($"Button A: X+{Numerics.IntegerInt32}, Y+{Numerics.IntegerInt32}")
 				.Select(V.Create)
 				.ThenLine(
-					Span.EqualTo("Button B: X+")
-						.IgnoreThen(Numerics.IntegerInt32)
-						.ThenIgnore(Span.EqualTo(", Y+"))
-						.Then(Numerics.IntegerInt32)
+					Template.Matching<int, int>($"Button B: X+{Numerics.IntegerInt32}, Y+{Numerics.IntegerInt32}")
+						.Select(V.Create)
+				).ThenLine(
+					Template.Matching<long, long>($"Prize: X={Numerics.IntegerInt64}, Y={Numerics.IntegerInt64}")
 						.Select(V.Create)
 				)
-				.ThenLine(Span.EqualTo("Prize: X=")
-					.IgnoreThen(Numerics.IntegerInt64)
-					.ThenIgnore(Span.EqualTo(", Y="))
-					.Then(Numerics.IntegerInt64)
-					.Select(V.Create))
 				.Select(x =>
 				{
 					var ((a, b), prize) = x;

@@ -1,6 +1,7 @@
 using aoc.Common;
 using mazharenko.AoCAgent.Generator;
 using MoreLinq;
+using ParsingExtensions;
 
 namespace aoc.Year2024;
 
@@ -67,27 +68,23 @@ internal partial class Day17
 
 	public (Registers registers, byte[] program) Parse(string input)
 	{
-		var registerParser =
-			Span.EqualTo("Register ").IgnoreThen(Character.Letter)
-				.IgnoreThen(Span.EqualTo(": "))
-				.IgnoreThen(Numerics.IntegerInt32);
-		return registerParser
-			.ThenLine(registerParser)
-			.ThenLine(registerParser)
-			.Block()
-			.Then(
-				Span.EqualTo("Program: ")
-					.IgnoreThen(Numerics.IntegerInt32.Select(i => (byte)i)
-						.ManyDelimitedBy(Character.EqualTo(',')
-						)
-
-					))
-			.Select(x =>
-			{
-				var (((a, b), c), program) = x;
-				return (new Registers(a, b, c), program);
-			})
-			.Parse(input);
+		return
+			Template.Matching<int>($"Register A: {Numerics.IntegerInt32}")
+				.ThenLine(Template.Matching<int>($"Register B: {Numerics.IntegerInt32}"))
+				.ThenLine(Template.Matching<int>($"Register C: {Numerics.IntegerInt32}"))
+				.Block()
+				.Then(
+					Span.EqualTo("Program: ")
+						.IgnoreThen(Numerics.IntegerInt32.Select(i => (byte)i)
+							.ManyDelimitedBy(Character.EqualTo(',')
+							)
+						))
+				.Select(x =>
+				{
+					var (((a, b), c), program) = x;
+					return (new Registers(a, b, c), program);
+				})
+				.Parse(input);
 	}
 
 	internal record Registers(long A, long B, long C);

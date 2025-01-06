@@ -12,7 +12,7 @@ public static partial class Combinators
 	/// Construct a parser that applies <paramref name="first" />, applies <paramref name="second" /> and returns their results as a tuple.
 	/// </summary>
 	/// <typeparam name="T">The type of value being parsed by <paramref name="first" />.</typeparam>
-	/// <typeparam name="U">The type of value being parsed by <paramref name="first" />.</typeparam>
+	/// <typeparam name="U">The type of value being parsed by <paramref name="second" />.</typeparam>
 	/// <param name="first">The first parser.</param>
 	/// <param name="second">The second parser.</param>
 	/// <returns>The resulting parser.</returns>
@@ -36,7 +36,6 @@ public static partial class Combinators
 	/// Construct a parser that matches one or more instances of applying <paramref name="parser"/>, delimited by space.
 	/// </summary>
 	/// <typeparam name="T">The type of value being parsed.</typeparam>
-	/// <typeparam name="U">The type of the resulting value.</typeparam>
 	/// <param name="parser">The parser.</param>
 	/// <returns>The resulting parser.</returns>
 	public static TextParser<T[]> AtLeastOnceDelimitedBySpaces<T>(this TextParser<T> parser)

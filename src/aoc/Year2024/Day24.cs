@@ -1,14 +1,12 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using mazharenko.AoCAgent.Generator;
 using aoc.Common;
-using Spectre.Console;
+using ParsingExtensions;
 
 namespace aoc.Year2024;
 
 internal partial class Day24
 {
-	public record InputBit(string Name, int Digit, int Value) // bool?
+	public record InputBit(string Name, int Digit, int Value) 
 	{
 		public string FullName { get; } = $"{Name}{Digit:00}";
 	}
@@ -38,48 +36,18 @@ internal partial class Day24
 		);
 
 		var parser =
-			Character.Letter.Then(Numerics.IntegerInt32)
-				.ThenIgnore(Span.EqualTo(": "))
-				.Then(Numerics.IntegerInt32)
-				.Select(x => new InputBit(x.Item1.Item1.ToString(), x.Item1.Item2, x.Item2))
+			Template.Matching<(char name, int digit, int value)>($"{Character.Letter}{Numerics.IntegerInt32}: {Numerics.IntegerInt32}")
+				.Select(x => new InputBit(x.name.ToString(), x.digit, x.value))
 				.Lines()
 				.Block()
 				.ThenBlock(
-					wireName.ThenIgnore(SpanX.Space).Then(op).ThenIgnore(SpanX.Space).Then(wireName).ThenIgnore(Span.EqualTo(" -> ")).Then(wireName)
-						.Select(((tuple, s) => // todo: tuple flatten? flattening Select? flattening Then?
-							{
-								return new Gate(s, tuple.Item1.Item1, tuple.Item2, tuple.Item1.Item2);
-							})
-						).Lines());
+					Template.Matching<(string in1, Operation op, string in2, string @out)>($"{wireName} {op} {wireName} -> {wireName}")
+						.Select(x =>
+							new Gate(x.@out, x.in1, x.in2, x.op))
+						.Lines()
+				);
 
 		return parser.Parse(input);
-	}
-
-	public IDictionary<string, (string, string, string)> Parse2(string input)
-	{
-		var wire = Character.LetterOrDigit.Many().Select(chars => new string(chars));
-		var op = Character.Letter.Many().Select(
-			chars => new string(chars)
-		);
-
-		var dic = new Dictionary<string, (string, string, string)>();
-
-		var parser = wire.ThenIgnore(Span.EqualTo(": "))
-			.Then(Numerics.IntegerInt32)
-			.Select((s, i) => (s, ("", "", "")))
-			.Lines()
-			.Block()
-			.ThenBlock(
-				wire.ThenIgnore(SpanX.Space).Then(op).ThenIgnore(SpanX.Space).Then(wire).ThenIgnore(Span.EqualTo(" -> ")).Then(wire)
-					.Select(((tuple, s) => { return (s, (tuple.Item1.Item1, tuple.Item1.Item2, tuple.Item2)); })
-					).Lines());
-
-		var (s1, s2) = parser.Parse(input);
-
-		foreach (var (s, lazy) in s1) dic[s] = lazy;
-		foreach (var (s, lazy) in s2) dic[s] = lazy;
-
-		return dic;
 	}
 
 	internal partial class Part1

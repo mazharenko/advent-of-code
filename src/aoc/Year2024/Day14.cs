@@ -1,7 +1,7 @@
 using aoc.Common;
 using mazharenko.AoCAgent.Generator;
 using MoreLinq;
-using Spectre.Console;
+using ParsingExtensions;
 
 namespace aoc.Year2024;
 
@@ -9,16 +9,10 @@ internal partial class Day14
 {
 	public (V<int> p, V<int> v)[] Parse(string input)
 	{
-		return Span.EqualTo("p=")
-			.IgnoreThen(Numerics.IntegerInt32)
-			.ThenIgnore(Span.EqualTo(','))
-			.Then(Numerics.IntegerInt32)
-			.Select(x => V.Create(x.Item2, x.Item1))
-			.Then(Span.EqualTo(" v=")
-				.IgnoreThen(Numerics.IntegerInt32
-					.ThenIgnore(Span.EqualTo(','))
-					.Then(Numerics.IntegerInt32)
-					.Select(x => V.Create(x.Item2, x.Item1))))
+		return Template.Matching<(int py, int px, int vy, int vx)>(
+				$"p={Numerics.IntegerInt32},{Numerics.IntegerInt32} v={Numerics.IntegerInt32},{Numerics.IntegerInt32}"
+			)
+			.Select(t => (V.Create(t.px, t.py), V.Create(t.vx, t.vy)))
 			.Lines().Parse(input);
 	}
 
