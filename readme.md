@@ -4,9 +4,12 @@ Here are my solutions for the [Advent of Code event](https://adventofcode.com/).
 
 ## :two::zero::two::four:
 
-I had been missing various features of C#. At the same time, I found myself wondering how well I could handle situations where I had previously relied heavily on specific features of F#. So, this year, I decided to solve the AoC puzzles in C#.
+I had been missing various features of C#. At the same time, I was wondering how well I could handle situations where I had previously relied heavily on specific features of F#. So, this year, I decided to solve the AoC puzzles in C#. And I would catch myself willing to have type aliases / tail recursion / structural equality / whatever, but generally speaking, it was a more comfortable experience, especially since I did not have to push myself to avoid using an imperative style.
 
-Additionally, I’m looking forward to improving the parsing process. I plan to try out [Superpower](https://github.com/datalust/superpower) and invest in some extensions to achieve a concise syntax for some common patterns found in AoC inputs.
+Additionally, I was looking forward to improving the parsing process. I tried out [Superpower](https://github.com/datalust/superpower) and managed to achieve a concise syntax for some common patterns found in AoC inputs like lines and blocks. It worked fairly well, though dealing with its backtracking was tricky. I also succeeded to construct a parser from a template with use of custom interpolated string handlers, like the following: 
+```csharp
+Template.Matching<int, int>($"p={Numerics.IntegerInt32},{Numerics.IntegerInt32};") // TextParser<(int, int)>
+```
 
 <a href="src/aoc/Year2024/Day01.cs"><img src=".aoc_tiles/tiles/2024/01.png" width="161px"></a>
 <a href="src/aoc/Year2024/Day02.cs"><img src=".aoc_tiles/tiles/2024/02.png" width="161px"></a>
