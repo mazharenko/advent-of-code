@@ -11,6 +11,8 @@ Additionally, I was looking forward to improving the parsing process. I tried ou
 Template.Matching<int, int>($"p={Numerics.IntegerInt32},{Numerics.IntegerInt32};") // TextParser<(int, int)>
 ```
 
+Some more functions have been added to the [aoc-agent](https://github.com/mazharenko/aoc-agent), the most significant update is that example inputs and Parse method can now be easily reused across the parts of a single day.
+
 <a href="src/aoc/Year2024/Day01.cs"><img src=".aoc_tiles/tiles/2024/01.png" width="161px"></a>
 <a href="src/aoc/Year2024/Day02.cs"><img src=".aoc_tiles/tiles/2024/02.png" width="161px"></a>
 <a href="src/aoc/Year2024/Day03.cs"><img src=".aoc_tiles/tiles/2024/03.png" width="161px"></a>
