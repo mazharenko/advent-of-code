@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "monthly"
     allow:
       - dependency-name: "mazharenko.AoCAgent"
   - package-ecosystem: "github-actions" 
