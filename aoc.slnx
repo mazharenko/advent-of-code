@@ -1,0 +1,13 @@
+﻿<Solution>
+  <Folder Name="/Props/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src\aoc\aoc.csproj" Type="Classic C#" />
+    <Project Path="src\ParsingExtensions\ParsingExtensions.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests\AoC.Tests\AoC.Tests.csproj" Type="Classic C#" />
+    <Project Path="tests\ParsingExtensions.Tests\ParsingExtensions.Tests.csproj" Type="Classic C#" />
+  </Folder>
+</Solution>
