@@ -12,6 +12,7 @@
     <PackageReference Include="morelinq" />
     <PackageReference Include="mazharenko.AocAgent"/>
     <PackageReference Include="Superpower"/>
+    <PackageReference Include="System.CommandLine" />
   </ItemGroup>
 
   <ItemGroup>

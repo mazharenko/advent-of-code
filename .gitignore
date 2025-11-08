@@ -6,7 +6,9 @@
 .idea/
 .vscode/
 .vs/
+.DS_Store
 
 *.DotSettings.user
 
 SESSION.COOKIE
+.env
