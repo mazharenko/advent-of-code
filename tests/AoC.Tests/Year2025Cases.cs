@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 
 namespace AoC.Tests;
 
@@ -8,5 +8,7 @@ public class Year2025Cases : IEnumerable
 	{
 		yield return new PartInputCaseData(1, 1, "1048");
 		yield return new PartInputCaseData(1, 2, "6498");
+		yield return new PartInputCaseData(2, 1, "38437576669");
+		yield return new PartInputCaseData(2, 2, "49046150754");
 	}
 }
