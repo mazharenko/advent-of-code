@@ -57,20 +57,6 @@ internal partial class Day02
 			Expect(example, 4174379265);
 		}
 
-		private static string[] Chunk(string id, int count)
-		{
-			return id.Chunk(count)
-				.Select(c => new string(c))
-				.ToArray();
-		}
-
-		private static IEnumerable<ReadOnlyMemory<char>> Chunk(ReadOnlyMemory<char> id, int size)
-		{
-			var length = id.Length;
-			for (var i = 0; i < length; i += size)
-				yield return id[i..(i + size)];
-		}
-
 		private static bool IsInvalidId(long id)
 		{
 			var idMemory = id.ToString().AsMemory();
