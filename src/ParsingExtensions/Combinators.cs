@@ -8,127 +8,127 @@ namespace Superpower;
 
 public static partial class Combinators
 {
-	/// <summary>
-	/// Construct a parser that applies <paramref name="first" />, applies <paramref name="second" /> and returns their results as a tuple.
-	/// </summary>
-	/// <typeparam name="T">The type of value being parsed by <paramref name="first" />.</typeparam>
-	/// <typeparam name="U">The type of value being parsed by <paramref name="second" />.</typeparam>
 	/// <param name="first">The first parser.</param>
-	/// <param name="second">The second parser.</param>
-	/// <returns>The resulting parser.</returns>
-	public static TextParser<(T, U)> Then<T, U>(this TextParser<T> first, TextParser<U> second)
+	/// <typeparam name="T">The type of value being parsed by <paramref name="first" />.</typeparam>
+	extension<T>(TextParser<T> first)
 	{
-		return first.Then(t => second.Select(u => (t, u)));
-	}
+		/// <summary>
+		/// Construct a parser that applies <paramref name="first" />, applies <paramref name="second" /> and returns their results as a tuple.
+		/// </summary>
+		/// <typeparam name="U">The type of value being parsed by <paramref name="second" />.</typeparam>
+		/// <param name="second">The second parser.</param>
+		/// <returns>The resulting parser.</returns>
+		public TextParser<(T, U)> Then<U>(TextParser<U> second)
+		{
+			return first.Then(t => second.Select(u => (t, u)));
+		}
 
-	/// <summary>
-	/// Construct a parser that matches <paramref name="parser"/> zero or more times, delimited by spaces.
-	/// </summary>
-	/// <typeparam name="T">The type of value being parsed.</typeparam>
-	/// <param name="parser">The parser.</param>
-	/// <returns>The resulting parser.</returns>
-	public static TextParser<T[]> ManyDelimitedBySpaces<T>(this TextParser<T> parser)
-	{
-		return parser.ManyDelimitedBy(SpanX.Space);
-	}
+		/// <summary>
+		/// Construct a parser that matches <paramref name="first"/> zero or more times, delimited by spaces.
+		/// </summary>
+		/// <returns>The resulting parser.</returns>
+		public TextParser<T[]> ManyDelimitedBySpaces()
+		{
+			return first.ManyDelimitedBy(SpanX.Space);
+		}
 
-	/// <summary>
-	/// Construct a parser that matches one or more instances of applying <paramref name="parser"/>, delimited by space.
-	/// </summary>
-	/// <typeparam name="T">The type of value being parsed.</typeparam>
-	/// <param name="parser">The parser.</param>
-	/// <returns>The resulting parser.</returns>
-	public static TextParser<T[]> AtLeastOnceDelimitedBySpaces<T>(this TextParser<T> parser)
-	{
-		return parser.AtLeastOnceDelimitedBy(SpanX.Space);
+		/// <summary>
+		/// Construct a parser that matches one or more instances of applying <paramref name="first"/>, delimited by space.
+		/// </summary>
+		/// <returns>The resulting parser.</returns>
+		public TextParser<T[]> AtLeastOnceDelimitedBySpaces()
+		{
+			return first.AtLeastOnceDelimitedBy(SpanX.Space);
+		}
 	}
 
 	[GeneratedRegex("^.*?(?=(\r\n|\n){2})", RegexOptions.Singleline)]
 	private static partial Regex TextUntilBlockSeparatorRegex();
 
-	public static TextParser<T> Block<T>(this TextParser<T> parser)
-	{
-		TextParser<TextSpan> untilSeparatorParser = input =>
-		{
-			if (input.Length == 0)
-				return Result.Empty<TextSpan>(input, ["some text until block separator"]);
-			var m = TextUntilBlockSeparatorRegex().Match(input.Source!, input.Position.Absolute, input.Length);
-			if (!m.Success)
-				return Result.Value(input, input, TextSpan.Empty);
-
-			var remainder = input.Skip(m.Length);
-			return Result.Value(input.First(m.Length), input, remainder);
-		};
-
-		return untilSeparatorParser.Apply(parser).ThenIgnore(SpanX.BlockSeparator.Optional());
-	}
-
-	public static TextParser<(T, U)> ThenBlock<T, U>(this TextParser<T> first, TextParser<U> second)
-	{
-		return first.Then(second.Block());
-	}
-
-	public static TextParser<U> ThenBlock<T, U>(this TextParser<T> first, Func<T, TextParser<U>> second)
-	{
-		return first.Then(t => second(t).Block());
-	}
-
-	/// <summary>
-	/// Construct a parser that matches <paramref name="parser" /> againts the trimmed input - without one trailing new line (\n or \r\n)
-	/// </summary>
 	/// <param name="parser">The parser.</param>
 	/// <typeparam name="T">The type of value being parsed.</typeparam>
-	/// <returns>The resulting parser.</returns>
-	public static TextParser<T> TrimTrailingNewLine<T>(this TextParser<T> parser)
+	extension<T>(TextParser<T> parser)
 	{
-		// It's a bit tricky to ignore the trailing newline because when the Lines parser encounters it, it expects another line.
-		// This can be resolved with tokenization, but we want to avoid that to keep things simple.
-		return input =>
+		public TextParser<T> Block()
 		{
-			if (input.IsAtEnd)
-				return parser(input);
-			if (input.Source![input.Position.Absolute + input.Length - 1] == '\n')
+			TextParser<TextSpan> untilSeparatorParser = input =>
 			{
-				var trimmedInput = new TextSpan(input.Source, input.Position, input.Length - 1);
-				if (!trimmedInput.IsAtEnd &&
-				    trimmedInput.Source![trimmedInput.Position.Absolute + trimmedInput.Length - 1] == '\r')
-					trimmedInput = new TextSpan(trimmedInput.Source, trimmedInput.Position, trimmedInput.Length - 1);
-				return parser(trimmedInput);
-			}
+				if (input.Length == 0)
+					return Result.Empty<TextSpan>(input, ["some text until block separator"]);
+				var m = TextUntilBlockSeparatorRegex().Match(input.Source!, input.Position.Absolute, input.Length);
+				if (!m.Success)
+					return Result.Value(input, input, TextSpan.Empty);
 
-			return parser(input);
-		};
-	}
+				var remainder = input.Skip(m.Length);
+				return Result.Value(input.First(m.Length), input, remainder);
+			};
 
-	/// <summary>
-	/// Construct a parser that matches <paramref name="parser" /> zero or more times, delimited by new lines and an optional trailing new line.
-	/// </summary>
-	/// <typeparam name="T">The type of value being parsed.</typeparam>
-	/// <param name="parser">The parser.</param>
-	/// <returns>The resulting parser.</returns>
-	public static TextParser<T[]> Lines<T>(this TextParser<T> parser)
-	{
-		return parser.ManyDelimitedBy(SpanX.NewLine).TrimTrailingNewLine();
-	}
+			return untilSeparatorParser.Apply(parser).ThenIgnore(SpanX.BlockSeparator.Optional());
+		}
 
-	public static TextParser<(T, U)> ThenLine<T, U>(this TextParser<T> first, TextParser<U> second)
-	{
-		return first.ThenIgnore(SpanX.NewLine).Then(second);
-	}
+		public TextParser<(T, U)> ThenBlock<U>(TextParser<U> second)
+		{
+			return parser.Then(second.Block());
+		}
 
-	public static TextParser<U> ThenLine<T, U>(this TextParser<T> first, Func<T, TextParser<U>> second)
-	{
-		return first.ThenIgnore(SpanX.NewLine).Then(second);
-	}
-	
-	public static TextParser<T> ThenIgnore<T, U>(this TextParser<T> first, TextParser<U> second)
-	{
-		return first.Then(x => second.Select(_ => x));
-	}
+		public TextParser<U> ThenBlock<U>(Func<T, TextParser<U>> second)
+		{
+			return parser.Then(t => second(t).Block());
+		}
 
-	public static TextParser<T[]> Blocks<T>(this TextParser<T> parser)
-	{
-		return parser.Block().TrimTrailingNewLine().Many();
+		/// <summary>
+		/// Construct a parser that matches <paramref name="parser" /> againts the trimmed input - without one trailing new line (\n or \r\n)
+		/// </summary>
+		/// <returns>The resulting parser.</returns>
+		public TextParser<T> TrimTrailingNewLine()
+		{
+			// It's a bit tricky to ignore the trailing newline because when the Lines parser encounters it, it expects another line.
+			// This can be resolved with tokenization, but we want to avoid that to keep things simple.
+			return input =>
+			{
+				if (input.IsAtEnd)
+					return parser(input);
+				if (input.Source![input.Position.Absolute + input.Length - 1] == '\n')
+				{
+					var trimmedInput = new TextSpan(input.Source, input.Position, input.Length - 1);
+					if (!trimmedInput.IsAtEnd &&
+					    trimmedInput.Source![trimmedInput.Position.Absolute + trimmedInput.Length - 1] == '\r')
+						trimmedInput = new TextSpan(trimmedInput.Source, trimmedInput.Position, trimmedInput.Length - 1);
+					return parser(trimmedInput);
+				}
+
+				return parser(input);
+			};
+		}
+
+		/// <summary>
+		/// Construct a parser that matches <paramref name="parser" /> zero or more times, delimited by new lines and an optional trailing new line.
+		/// </summary>
+		/// <returns>The resulting parser.</returns>
+		public TextParser<T[]> Lines()
+		{
+			return parser.ManyDelimitedBy(SpanX.NewLine).TrimTrailingNewLine();
+		}
+
+		public TextParser<(T, U)> ThenLine<U>(TextParser<U> second)
+		{
+			return parser.ThenIgnore(SpanX.NewLine).Then(second);
+		}
+
+		public TextParser<U> ThenLine<U>(Func<T, TextParser<U>> second)
+		{
+			return parser.ThenIgnore(SpanX.NewLine).Then(second);
+		}
+
+		public TextParser<T> ThenIgnore<U>(TextParser<U> second)
+		{
+			return parser.Then(x => second.Select(_ => x));
+		}
+
+		public TextParser<T[]> Blocks()
+		{
+			return parser.Block().TrimTrailingNewLine().Many();
+		}
 	}
 
 	/// <summary>
@@ -164,23 +164,26 @@ public static partial class Combinators
 		return parser.Select(x => selector(x.Item1, x.Item2, x.Item3, x.Item4));
 	}
 
-	public static TextParser<T[][]> MapJagged<T>(this TextParser<T> parser)
+	extension<T>(TextParser<T> parser)
 	{
-		return parser.Many().Lines();
-	}
+		public TextParser<T[][]> MapJagged()
+		{
+			return parser.Many().Lines();
+		}
 
-	public static TextParser<T[,]> Map<T>(this TextParser<T> parser)
-	{
-		return parser.MapJagged()
-			.Select(x =>
-			{
-				if (x.Length == 0)
-					return new T[0, 0];
-				var map = new T[x.Length, x[0].Length];
-				for (var i = 0; i < map.GetLength(0); i++)
-				for (var j = 0; j < map.GetLength(1); j++)
-					map[i, j] = x[i][j];
-				return map;
-			});
+		public TextParser<T[,]> Map()
+		{
+			return parser.MapJagged()
+				.Select(x =>
+				{
+					if (x.Length == 0)
+						return new T[0, 0];
+					var map = new T[x.Length, x[0].Length];
+					for (var i = 0; i < map.GetLength(0); i++)
+					for (var j = 0; j < map.GetLength(1); j++)
+						map[i, j] = x[i][j];
+					return map;
+				});
+		}
 	}
 }

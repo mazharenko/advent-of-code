@@ -8,20 +8,20 @@ public static class V
 	{
 		return new V<T>(x, y);
 	}
-	public static V<T> Dir<T>(this V<T> p) where T : INumber<T>
+	extension<T>(V<T> p) where T : INumber<T>
 	{
-		return Create(T.CreateChecked(T.Sign(p.X)), T.CreateChecked(T.Sign(p.Y)));
-	}
+		public V<T> Dir()
+		{
+			return Create(T.CreateChecked(T.Sign(p.X)), T.CreateChecked(T.Sign(p.Y)));
+		}
 
-	public static V<T> RotateCw<T>(this V<T> v) where T : INumber<T> 
-		=> Create(v.Y, -v.X);
+		public V<T> RotateCw() => Create(p.Y, -p.X);
+		public V<T> RotateCcw() => Create(-p.Y, p.X);
 
-	public static V<T> RotateCcw<T>(this V<T> v) where T : INumber<T>
-		=> Create(-v.Y, v.X);
-
-	public static T MDist<T>(this V<T> v1, V<T> v2) where T : INumber<T>
-	{
-		return T.Abs(v1.X - v2.X) + T.Abs(v1.Y - v2.Y);
+		public T MDist(V<T> v2)
+		{
+			return T.Abs(p.X - v2.X) + T.Abs(p.Y - v2.Y);
+		}
 	}
 }
 

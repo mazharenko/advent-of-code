@@ -28,83 +28,88 @@ public static class M
 		return map;
 	}
 
-	public static U[,] Map<T, U>(this T[,] source, Func<V<int>, T, U> mapper)
+	extension<T>(T[,] source)
 	{
-		return Init(source.GetLength(0), source.GetLength(1), p => mapper(p, source.At(p)));
-	}
+		public U[,] Map<U>(Func<V<int>, T, U> mapper)
+		{
+			return Init(source.GetLength(0), source.GetLength(1), p => mapper(p, source.At(p)));
+		}
 
-	public static void Iter<T>(this T[,] source, Action<V<int>, T> action)
-	{
-		source.AsEnumerable().ForEach((x) => action(x.point, x.element));
+		public void Iter(Action<V<int>, T> action)
+		{
+			source.AsEnumerable().ForEach((x) => action(x.point, x.element));
+		}
+
+		public IEnumerable<(V<int> point, T element)> AsEnumerable()
+		{
+			for (var i = 0; i < source.Height(); i++)
+			for (var j = 0; j < source.Width(); j++)
+				yield return (V.Create(i, j), source[i, j]);
+		}
+
+		public T At(V<int> point)
+		{
+			return source[point.X, point.Y];
+		}
+
+		public bool Inside(V<int> point) => TryAt(source, point, out _);
+
+		public bool TryAt(V<int> point, [MaybeNullWhen(false)] out T element)
+		{
+			if (point.X < 0 || point.X >= source.Height()
+			                || point.Y < 0 || point.Y >= source.Width())
+			{
+				element = default;
+				return false;
+			}
+
+			element = source[point.X, point.Y];
+			return true;
+		}
+
+		public int Height() => source.GetLength(0);
+		public int Width() => source.GetLength(1);
+
+		public bool Compare(T[,] map2)
+		{
+			if (source.Height() != map2.Height()
+			    || source.Width() != map2.Width())
+				return false;
+			for (var i = 0; i < source.Height(); i++)
+			for (var j = 0; j < source.Width(); j++)
+			{
+				if (!Equals(source[i, j], map2[i, j]))
+					return false;
+			}
+
+			return true;
+		}
+
+		public bool CompareFromSafe(int iFrom, int jFrom, T[,] map2, Func<T, T, bool> comparator)
+		{
+			for (var i = 0; i < map2.Height(); i++)
+			for (var j = 0; j < map2.Width(); j++)
+			{
+				if (source.Height() <= i + iFrom) return false;
+				if (source.Width() <= j + jFrom) return false;
+
+				if (!comparator(source[i + iFrom, j + jFrom], map2[i, j]))
+					return false;
+			}
+
+			return true;
+		}
+
+		public T[,] RotateCw()
+			=> Init(source.Width(), source.Height(), p => source[source.Height() - p.Y - 1, p.X]);
+
+		public T[,] RotateCcw()
+			=> Init(source.Width(), source.Height(), p => source[p.Y, source.Width() - p.X - 1]);
 	}
 
 	// todo: separate type can implement IEnumerable
-	public static IEnumerable<(V<int> point, T element)> AsEnumerable<T>(this T[,] source)
-	{
-		for (var i = 0; i < source.Height(); i++)
-		for (var j = 0; j < source.Width(); j++)
-			yield return (V.Create(i, j), source[i, j]);
-	}
 
-	public static T At<T>(this T[,] source, V<int> point)
-	{
-		return source[point.X, point.Y];
-	}
-	
-	public static bool Inside<T>(this T[,] source, V<int> point) => TryAt(source, point, out _);
-	
 	// todo: maybe?
-	public static bool TryAt<T>(this T[,] source, V<int> point, [MaybeNullWhen(false)] out T element)
-	{
-		if (point.X < 0 || point.X >= source.Height()
-		                || point.Y < 0 || point.Y >= source.Width())
-		{
-			element = default;
-			return false;
-		}
-
-		element = source[point.X, point.Y];
-		return true;
-	}
-
-	public static int Height<T>(this T[,] map) => map.GetLength(0);
-	public static int Width<T>(this T[,] map) => map.GetLength(1);
-
-	public static bool Compare<T>(this T[,] map1, T[,] map2)
-	{
-		if (map1.Height() != map2.Height()
-		    || map1.Width() != map2.Width())
-			return false;
-		for (var i = 0; i < map1.Height(); i++)
-		for (var j = 0; j < map1.Width(); j++)
-		{
-			if (!Equals(map1[i, j], map2[i, j]))
-				return false;
-		}
-
-		return true;
-	}
-
-	public static bool CompareFromSafe<T>(this T[,] map1, int iFrom, int jFrom, T[,] map2, Func<T, T, bool> comparator)
-	{
-		for (var i = 0; i < map2.Height(); i++)
-		for (var j = 0; j < map2.Width(); j++)
-		{
-			if (map1.Height() <= i + iFrom) return false;
-			if (map1.Width() <= j + jFrom) return false;
-
-			if (!comparator(map1[i + iFrom, j + jFrom], map2[i, j]))
-				return false;
-		}
-
-		return true;
-	}
-
-	public static T[,] RotateCw<T>(this T[,] map)
-		=> Init(map.Width(), map.Height(), p => map[map.Height() - p.Y - 1, p.X]);
-
-	public static T[,] RotateCcw<T>(this T[,] map)
-		=> Init(map.Width(), map.Height(), p => map[p.Y, map.Width() - p.X - 1]);
 
 	// todo slice
 	// separate type can get an indexer for slice
