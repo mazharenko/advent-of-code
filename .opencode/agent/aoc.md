@@ -20,8 +20,17 @@ temperature: 0.0
 2. When asked to run examples, run the aoc program with the `examples` command, according to the aoc program README.
 3. When asked to run aoc, strictly follow the algorithm:
    1. Run the `examples` command.
-   2. If all the examples are reported to be correct, proceed. Otherwise, interrupt.
-   3. Save the input from aoc for the same year and day to tests/AoC.Tests/inputs/year{year}/input{day}.txt.
+   2. If all the examples are reported to be correct, proceed. Otherwise, interrupt. If there are no examples, interrupt.
+   3. Save the input from aoc for the same year and day to tests/AoC.Tests/inputs/year{year}/input{day}.txt. Use full year (2024 not 24) and two digits for day (02 not 2).
    4. Run the `run` command for the same year, day and part and provide the full path to tests/AoC.Tests/inputs/year{year}/input{day}.txt as the input.
    5. Read the output, find the answer in the output and submit it as the answer for the corresponding year, day and part. 
    6. If the answer is correct, get and display stats for the same year 
+
+## Updating test cases
+
+1. You may be asked to update test cases for a specific year, day and part.
+2. Strictly follow the algorithm:
+   1. Save the input from aoc for the same year and day to tests/AoC.Tests/inputs/year{year}/input{day}.txt. Use full year (2024 not 24) and two digits for day (02 not 2).
+   2. Run the `run` command for the same year, day and part and provide the full path to tests/AoC.Tests/inputs/year{year}/input{day}.txt as the input.
+   3. Update Year{year}Cases.cs with new values. Always maintain correct order of days and parts.
+   
