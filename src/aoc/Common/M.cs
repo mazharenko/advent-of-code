@@ -39,6 +39,19 @@ public static class M
 		{
 			source.AsEnumerable().ForEach((x) => action(x.point, x.element));
 		}
+		
+		public void Set(V<int> point, T value) => source[point.X, point.Y] = value;
+
+		public bool TrySet(V<int> point, T value)
+		{
+			if (source.Inside(point))
+			{
+				source[point.X, point.Y] = value;
+				return true;
+			}
+
+			return false;
+		}
 
 		public IEnumerable<(V<int> point, T element)> AsEnumerable()
 		{
@@ -53,6 +66,13 @@ public static class M
 		}
 
 		public bool Inside(V<int> point) => TryAt(source, point, out _);
+
+		public Maybe<T> TryAt(V<int> point)
+		{
+			if (TryAt(source, point, out var result))
+				return result;
+			return Maybe.None;
+		}
 
 		public bool TryAt(V<int> point, [MaybeNullWhen(false)] out T element)
 		{
@@ -108,8 +128,6 @@ public static class M
 	}
 
 	// todo: separate type can implement IEnumerable
-
-	// todo: maybe?
 
 	// todo slice
 	// separate type can get an indexer for slice
