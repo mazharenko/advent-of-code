@@ -14,5 +14,7 @@ public class Year2025Cases : IEnumerable
 		yield return new PartInputCaseData(3, 2, "170731717900423");
 		yield return new PartInputCaseData(4, 1, "1502");
 		yield return new PartInputCaseData(4, 2, "9083");
+		yield return new PartInputCaseData(5, 1, "726");
+		yield return new PartInputCaseData(5, 2, "354226555270043");
 	}
 }

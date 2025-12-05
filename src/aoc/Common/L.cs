@@ -61,15 +61,15 @@ public record L<T> : IEnumerable<T>
 	}
 
 	public T Head => empty ? throw new InvalidOperationException("List is empty") : value!;
-	public L<T>? Tail => tail;
+	public L<T> Tail => tail ?? Empty;
 	
 	public bool IsEmpty => empty;
 
-	public void Deconstruct(out T head, out L<T>? tail1)
+	public void Deconstruct(out T head, out L<T> tail1)
 	{
 		if (empty) throw new InvalidOperationException("List is empty");
 		head = value!;
-		tail1 = tail;
+		tail1 = tail ?? Empty;
 	}
 
 	public virtual bool Equals(L<T>? other)
