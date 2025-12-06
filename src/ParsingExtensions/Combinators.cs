@@ -44,6 +44,9 @@ public static partial class Combinators
 
 	[GeneratedRegex("^.*?(?=(\r\n|\n){2})", RegexOptions.Singleline)]
 	private static partial Regex TextUntilBlockSeparatorRegex();
+	
+	[GeneratedRegex("^.*?(?=(\r\n|\n){1})", RegexOptions.Singleline)]
+	private static partial Regex TextUntilLineSeparatorRegex();
 
 	/// <param name="parser">The parser.</param>
 	/// <typeparam name="T">The type of value being parsed.</typeparam>
@@ -66,6 +69,23 @@ public static partial class Combinators
 			return untilSeparatorParser.Apply(parser).ThenIgnore(SpanX.BlockSeparator.Optional());
 		}
 
+		private TextParser<T> Line()
+		{
+			TextParser<TextSpan> untilSeparatorParser = input =>
+			{
+				if (input.Length == 0)
+					return Result.Empty<TextSpan>(input, ["some text until line separator"]);
+				var m = TextUntilLineSeparatorRegex().Match(input.Source!, input.Position.Absolute, input.Length);
+				if (!m.Success)
+					return Result.Value(input, input, TextSpan.Empty);
+
+				var remainder = input.Skip(m.Length);
+				return Result.Value(input.First(m.Length), input, remainder);
+			};
+
+			return untilSeparatorParser.Apply(parser).ThenIgnore(SpanX.NewLine.Optional());
+		}
+		
 		public TextParser<(T, U)> ThenBlock<U>(TextParser<U> second)
 		{
 			return parser.Then(second.Block());
@@ -107,7 +127,7 @@ public static partial class Combinators
 		/// <returns>The resulting parser.</returns>
 		public TextParser<T[]> Lines()
 		{
-			return parser.ManyDelimitedBy(SpanX.NewLine).TrimTrailingNewLine();
+			return parser.Line().Many();
 		}
 
 		public TextParser<(T, U)> ThenLine<U>(TextParser<U> second)

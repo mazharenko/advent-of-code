@@ -7,7 +7,7 @@ internal partial class Day04
 {
 	public char[,] Parse(string input)
 	{
-		return Character.In('.', '@').Map().Parse(input);
+		return Character.AnyChar.Map().Parse(input);
 	}
 
 	internal partial class Part1

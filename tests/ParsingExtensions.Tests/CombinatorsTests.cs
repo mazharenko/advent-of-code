@@ -62,7 +62,6 @@ public class CombinatorsTests
 		result.Value.Should().BeEquivalentTo(expected);
 	}
 
-
 	[Test]
 	public void Lines_Empty_TrailingNewLine2()
 	{
@@ -74,6 +73,23 @@ public class CombinatorsTests
 		result.HasValue.Should().BeTrue();
 		result.Value.Should().BeEquivalentTo(expected);
 	}
+
+	[Test]
+	public void Lines_AnyCharacter()
+	{
+		const string source = " 3\n, \r\n 8 ";
+		char[][] expected = [
+			" 3".ToCharArray(),
+			", ".ToCharArray(),
+			" 8 ".ToCharArray()
+		];
+		var parser = Character.AnyChar.Many().Lines();
+		var result = parser.TryParse(source);
+		
+		result.HasValue.Should().BeTrue();
+		result.Value.Should().BeEquivalentTo(expected);
+	}
+
 	[Test]
 	public void Blocks()
 	{
@@ -172,7 +188,7 @@ public class CombinatorsTests
 			"+.+".ToCharArray()
 		];
 		
-		var parser = Character.Except('\n').MapJagged();
+		var parser = Character.AnyChar.MapJagged();
 		var result = parser.TryParse(source);
 		
 		result.HasValue.Should().BeTrue();
@@ -189,7 +205,7 @@ public class CombinatorsTests
 			{ '+', '.', '+' }
 		};
 
-		var parser = Character.Except('\n').Map();
+		var parser = Character.AnyChar.Map();
 		var result = parser.TryParse(source);
 
 		result.HasValue.Should().BeTrue();

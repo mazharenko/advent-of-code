@@ -22,7 +22,7 @@ internal partial class Day08
 		""");
 	public char[,] Parse(string input)
 	{
-		return Character.LetterOrDigit.Or(Character.EqualTo('.'))
+		return Character.AnyChar
 			.Map().Parse(input);
 	}
 

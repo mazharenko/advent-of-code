@@ -8,7 +8,7 @@ internal abstract partial class Day15
 {
 	public virtual (V<int> robot, V<int>[] stones, V<int>[] walls, V<int>[] moves) Parse(string input)
 	{
-		return Character.In('#', '.', 'O', '@').Map()
+		return Character.AnyChar.Map()
 			.Block()
 			.ThenBlock(
 				Character.In('<', 'v', '>', '^')

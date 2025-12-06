@@ -73,7 +73,7 @@ internal partial class Day25
 
 		public char[][][] Parse(string input)
 		{
-			return Character.In('#', '.')
+			return Character.AnyChar
 				.MapJagged()
 				.Blocks().Parse(input);
 		}

@@ -9,7 +9,7 @@ internal partial class Day20
 {
 	public char[,] Parse(string input)
 	{
-		return Character.In('.', '#', 'S', 'E').Map().Parse(input);
+		return Character.AnyChar.Map().Parse(input);
 	}
 
 	private static int Solve(char[,] map, int shortcutLength)

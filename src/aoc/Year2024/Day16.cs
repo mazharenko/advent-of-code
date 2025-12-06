@@ -48,8 +48,7 @@ internal partial class Day16
 
 	public char[,] Parse(string input)
 	{
-		// todo: make it easy to create a map, so that not to filter out new lines?
-		return Character.In('S', '.', '#', 'E').Map().Parse(input);
+		return Character.AnyChar.Map().Parse(input);
 	}
 
 	IEnumerable<((V<int> point, V<int> direction) newState, int weight)> Adjacency((V<int> point, V<int> direction) arg, char[,] input)
