@@ -5,6 +5,8 @@ namespace Superpower.Parsers;
 
 public static class SpanX
 {
+	public static TextParser<TextSpan> Any = input => Result.Value(input, input, TextSpan.Empty);
+
 	public static TextParser<Unit> EndOfInput { get; } = input =>
 	{
 		if (input.IsAtEnd)
