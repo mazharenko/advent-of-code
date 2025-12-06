@@ -1,3 +1,4 @@
+using aoc.Common;
 using MoreLinq;
 
 namespace aoc.Year2024;
@@ -54,7 +55,7 @@ internal partial class Day02
 			return input.Count(levels =>
 			{
 				return Safe(levels)
-				       || Enumerable.Range(0, levels.Length).Any(i =>
+				       || (..levels.Length).AsEnumerable().Any(i =>
 					       Safe([..levels[..i], ..levels[(i + 1)..]])
 				       );
 			});

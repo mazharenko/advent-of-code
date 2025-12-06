@@ -7,11 +7,11 @@ internal partial class Day19
 {
 	public (string[] patterns, string[] designs) Parse(string input)
 	{
-		return Character.Letter.Many().Select(chars => new string(chars))
+		return Character.Letter.Many().Text()
 			.ManyDelimitedBy(Span.EqualTo(", "))
 			.Block()
 			.ThenBlock(
-				Character.Letter.Many().Select(chars => new string(chars))
+				Character.Letter.Many().Text()
 					.Lines()
 			).Parse(input);
 	}

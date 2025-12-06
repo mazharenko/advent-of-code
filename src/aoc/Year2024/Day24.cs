@@ -25,7 +25,7 @@ internal partial class Day24
 
 	public (InputBit[], Gate[]) Parse(string input)
 	{
-		var wireName = Character.LetterOrDigit.Many().Select(chars => new string(chars));
+		var wireName = Character.LetterOrDigit.Many().Text();
 		var op = Character.Letter.Many().Select(
 			chars => new string(chars) switch
 			{
