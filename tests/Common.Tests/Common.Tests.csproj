@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
@@ -9,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions"/>
     <PackageReference Include="Microsoft.NET.Test.Sdk"/>
     <PackageReference Include="NUnit"/>
     <PackageReference Include="NUnit.Analyzers"/>
     <PackageReference Include="NUnit3TestAdapter"/>
+    <PackageReference Include="FluentAssertions" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ParsingExtensions\ParsingExtensions.csproj"/>
+    <ProjectReference Include="..\..\src\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>

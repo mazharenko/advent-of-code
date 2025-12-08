@@ -1,6 +1,4 @@
-using aoc.Common;
-
-namespace AoC.Tests.Common;
+namespace Common.Tests;
 
 public class RTests
 {

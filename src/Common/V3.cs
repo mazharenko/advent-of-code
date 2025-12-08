@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace aoc.Common;
+namespace Common;
 
 public static class V3
 {

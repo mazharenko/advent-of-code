@@ -1,6 +1,5 @@
-using aoc.Common;
 using MoreLinq;
-using V = aoc.Common.V<int>;
+using V = Common.V<int>;
 
 namespace aoc.Year2024;
 

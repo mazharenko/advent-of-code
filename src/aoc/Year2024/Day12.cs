@@ -1,5 +1,4 @@
-using aoc.Common;
-using aoc.Common.Search;
+using Common.Search;
 using MoreLinq;
 
 namespace aoc.Year2024;

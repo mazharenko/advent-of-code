@@ -5,7 +5,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Superpower" />
+      <PackageReference Include="Superpower" />
+      <PackageReference Include="morelinq" />
     </ItemGroup>
+
 </Project>

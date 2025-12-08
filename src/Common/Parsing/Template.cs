@@ -1,9 +1,8 @@
 using System.Runtime.CompilerServices;
-using Superpower;
 using Superpower.Model;
-using Superpower.Parsers;
 
-namespace ParsingExtensions;
+// ReSharper disable once CheckNamespace
+namespace Superpower.Parsers;
 
 public static class Template
 {

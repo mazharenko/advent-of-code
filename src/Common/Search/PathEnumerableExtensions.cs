@@ -1,4 +1,4 @@
-namespace aoc.Common.Search;
+namespace Common.Search;
 
 
 public delegate bool Target<in T>(T state); // ITarget?

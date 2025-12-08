@@ -3,11 +3,11 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src\aoc\aoc.csproj" Type="Classic C#" />
-    <Project Path="src\ParsingExtensions\ParsingExtensions.csproj" Type="Classic C#" />
+    <Project Path="src/Common/Common.csproj" />
+    <Project Path="src\aoc\aoc.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests\AoC.Tests\AoC.Tests.csproj" Type="Classic C#" />
-    <Project Path="tests\ParsingExtensions.Tests\ParsingExtensions.Tests.csproj" Type="Classic C#" />
+    <Project Path="tests/Common.Tests/Common.Tests.csproj" />
+    <Project Path="tests\AoC.Tests\AoC.Tests.csproj" />
   </Folder>
 </Solution>

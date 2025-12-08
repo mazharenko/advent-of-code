@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace aoc.Common;
+namespace Common;
 
 public static class L
 {

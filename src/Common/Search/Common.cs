@@ -1,4 +1,4 @@
-namespace aoc.Common.Search;
+namespace Common.Search;
 
 public readonly record struct PathItem<T>(T Item, int Len);
 

@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace aoc.Common.Search;
+namespace Common.Search;
 
 public static class Dijkstra
 {

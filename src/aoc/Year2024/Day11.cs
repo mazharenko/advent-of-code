@@ -1,4 +1,3 @@
-using aoc.Common;
 using mazharenko.AoCAgent.Generator;
 
 namespace aoc.Year2024;

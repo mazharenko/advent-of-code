@@ -1,4 +1,3 @@
-using aoc.Common;
 using MoreLinq;
 
 namespace aoc.Year2024;

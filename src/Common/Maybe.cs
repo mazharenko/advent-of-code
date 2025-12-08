@@ -1,4 +1,4 @@
-namespace aoc.Common;
+namespace Common;
 
 public class NoneMaybe
 {

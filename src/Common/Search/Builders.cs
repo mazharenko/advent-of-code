@@ -1,4 +1,4 @@
-namespace aoc.Common.Search;
+namespace Common.Search;
 
 public class DijkstraBuilder<T, TKey>(T start, Func<T, TKey> keyFunction) where T : notnull where TKey : notnull
 {

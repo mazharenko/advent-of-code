@@ -17,10 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParsingExtensions\ParsingExtensions.csproj"/>
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="Superpower"/>
     <Using Include="Superpower.Parsers"/>
+    <Using Include="Common" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using MoreLinq;
 
-namespace aoc.Common;
+namespace Common;
 
 // todo separate wrapper type?
 public static class M

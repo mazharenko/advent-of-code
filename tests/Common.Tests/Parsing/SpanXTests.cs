@@ -1,4 +1,4 @@
-﻿namespace ParsingExtensions.Tests;
+﻿namespace Common.Tests.Parsing;
 
 public class SpanXTests
 {
