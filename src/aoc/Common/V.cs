@@ -23,6 +23,14 @@ public static class V
 			return T.Abs(p.X - v2.X) + T.Abs(p.Y - v2.Y);
 		}
 	}
+
+	public static double Dist<T>(this V<T> v1, V<T> v2) where T : INumber<T>
+	{
+		var square =
+			(v1.X - v2.X) * (v1.X - v2.X)
+			+ (v1.Y - v2.Y) * (v1.Y - v2.Y);
+		return Math.Sqrt(double.CreateSaturating(square));
+	}
 }
 
 public static class Directions
