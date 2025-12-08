@@ -31,6 +31,7 @@ temperature: 0.0
 1. You may be asked to update test cases for a specific year, day and part.
 2. Strictly follow the algorithm:
    1. Save the input from aoc for the same year and day to tests/AoC.Tests/inputs/year{year}/input{day}.txt. Use full year (2024 not 24) and two digits for day (02 not 2).
-   2. Run the `run` command for the same year, day and part and provide the full path to tests/AoC.Tests/inputs/year{year}/input{day}.txt as the input.
-   3. Update Year{year}Cases.cs with new values. Always maintain correct order of days and parts.
+   2. Do not run examples
+   3. Run the `run` command for the same year, day and part and provide the full path to tests/AoC.Tests/inputs/year{year}/input{day}.txt as the input.
+   4. Update Year{year}Cases.cs with new values. Always maintain correct order of days and parts.
    
