@@ -23,7 +23,7 @@ internal partial class Day10
 			Expect(example, 36);
 		}
 
-		public int Solve(int[,] input)
+		public int Solve(M<int> input)
 		{
 			var trailHeads = input.AsEnumerable().Where(x => x.element == 0).ToArray();
 
@@ -33,13 +33,13 @@ internal partial class Day10
 					Dijkstra.StartWith(head.point)
 						.WithAdjacency(new MapAdjacency(input))
 						.Items()
-						.Where(p => input.At(p) == 9)
+						.Where(p => input[p] == 9)
 						.Distinct()
 						.Count();
 			});
 		}
 
-		public int[,] Parse(string input)
+		public M<int> Parse(string input)
 		{
 			return Character.Digit.Select(c => int.Parse(c.ToString()))
 				.Map().Parse(input);
@@ -53,7 +53,7 @@ internal partial class Day10
 			Expect(example, 81);
 		}
 
-		public int Solve(int[,] input)
+		public int Solve(M<int> input)
 		{
 			var trailHeads = input.AsEnumerable().Where(x => x.element == 0).ToArray();
 
@@ -66,25 +66,25 @@ internal partial class Day10
 					.WithAdjacency(new MapAdjacency(input))
 					.WithoutRelaxation()
 					.Items()
-					.Count(p => input.At(p) == 9);
+					.Count(p => input[p] == 9);
 			});
 		}
 
-		public int[,] Parse(string input)
+		public M<int> Parse(string input)
 		{
 			return Character.Digit.Select(c => int.Parse(c.ToString()))
 				.Map().Parse(input);
 		}
 	}
 
-	private class MapAdjacency(int[,] map) : IAdjacency<V<int>>
+	private class MapAdjacency(M<int> map) : IAdjacency<V<int>>
 	{
 		public IEnumerable<(V<int> newState, int weight)> GetAdjacent(V<int> pos)
 		{
 			// todo: special bfs case for maps 
 			return Directions.All4().Select(d => d + pos)
 				.Where(map.Inside)
-				.Where(adj => map.At(adj) == map.At(pos) + 1) // slope
+				.Where(adj => map[adj] == map[pos] + 1) // slope
 				.Select(p => (p, 1));
 		}
 	}

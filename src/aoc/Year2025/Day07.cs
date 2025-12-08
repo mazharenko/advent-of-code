@@ -10,14 +10,14 @@ internal partial class Day07
 			Expect(example, 21);
 		}
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var start = input.AsEnumerable().First(x => x.element == 'S').point;
 			
 			var beamYs = new HashSet<int> { start.Y };
 			var splits = 0;
 			
-			for (var i = start.X; i < input.Height(); i++)
+			for (var i = start.X; i < input.Height; i++)
 			{
 				foreach (var beamY in beamYs.ToList())
 				{
@@ -44,15 +44,15 @@ internal partial class Day07
 
 		// все-таки рекурсия, но только если получится иммутабельность. разветлители можно хэшсетом, а лучи координатами нормальными
 		// ну есть же immutable dictionary
-		public long Solve(char[,] input)
+		public long Solve(M<char> input)
 		{
 			var start = input.AsEnumerable() .First(x => x.element == 'S').point;
 
-			var beamYs = new long[input.Width()];
+			var beamYs = new long[input.Width];
 				
 			beamYs[start.Y] ++;
 			
-			for (var i = start.X; i < input.Height(); i++)
+			for (var i = start.X; i < input.Height; i++)
 			{
 				for (var y = 0; y < beamYs.Length; y++)
 				{
@@ -70,7 +70,7 @@ internal partial class Day07
 		}
 	}
 
-	public char[,] Parse(string input)
+	public M<char> Parse(string input)
 	{
 		return Character.AnyChar.Map().Parse(input);
 	}

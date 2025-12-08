@@ -199,11 +199,11 @@ public class CombinatorsTests
 	public void Map()
 	{
 		const string source = ".=.\n+.+";
-		var expected = new[,]
+		var expected = M.Create(new[,]
 		{
 			{ '.', '=', '.' },
 			{ '+', '.', '+' }
-		};
+		});
 
 		var parser = Character.AnyChar.Map();
 		var result = parser.TryParse(source);

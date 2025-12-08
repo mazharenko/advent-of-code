@@ -19,7 +19,7 @@ internal partial class Day08
 		............
 		............
 		""");
-	public char[,] Parse(string input)
+	public M<char> Parse(string input)
 	{
 		return Character.AnyChar
 			.Map().Parse(input);
@@ -32,7 +32,7 @@ internal partial class Day08
 			Expect(example, 14);
 		}
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var allAntennas = input
 				.AsEnumerable()
@@ -61,7 +61,7 @@ internal partial class Day08
 			Expect(example, 34);
 		}
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var allAntennas = input
 				.AsEnumerable()

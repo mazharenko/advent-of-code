@@ -44,17 +44,17 @@ internal partial class Day16
 		#################
 		""");
 
-	public char[,] Parse(string input)
+	public M<char> Parse(string input)
 	{
 		return Character.AnyChar.Map().Parse(input);
 	}
 
-	IEnumerable<((V<int> point, V<int> direction) newState, int weight)> Adjacency((V<int> point, V<int> direction) arg, char[,] input)
+	IEnumerable<((V<int> point, V<int> direction) newState, int weight)> Adjacency((V<int> point, V<int> direction) arg, M<char> input)
 	{
 		yield return ((arg.point, arg.direction.RotateCw()), 1000);
 		yield return ((arg.point, arg.direction.RotateCcw()), 1000);
 
-		if (input.At(arg.point) != '#')
+		if (input[arg.point] != '#')
 			yield return ((arg.point + arg.direction, arg.direction), 1);
 	}
 	
@@ -66,7 +66,7 @@ internal partial class Day16
 			Expect(example1, 11048);
 		}
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var start = input.AsEnumerable().Single(x => x.element == 'S');
 			var finish = input.AsEnumerable().Single(x => x.element == 'E');
@@ -86,7 +86,7 @@ internal partial class Day16
 			Expect(example1, 64);
 		}
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var start = input.AsEnumerable().Single(x => x.element == 'S');
 			var finish = input.AsEnumerable().Single(x => x.element == 'E');

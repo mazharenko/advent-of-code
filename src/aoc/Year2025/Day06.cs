@@ -24,7 +24,7 @@ internal partial class Day06
 			//  45 64  387 23    ->   328  64  98
 			//   6 98  215 314         51 387 215
 			//                         64  23 314
-			var numberCols =
+			var numberCols = // todo M.Slice and M.Transpose
 				lines[..^1].Select(line => Numerics.IntegerInt64.ManyDelimitedBySpaces().Parse(line.Trim()))
 					.Transpose()
 					.Select(row => row.ToArray())
@@ -71,7 +71,7 @@ internal partial class Day06
 			//                         623
 			//                         431
 			//                           4
-			var numberCols = map[..^1].Transpose()
+			var numberCols = map[..^1].Transpose() // todo M.Slice and M.Transpose
 				.Select(r => new string(r.ToArray()).Trim())
 				.Split(string.IsNullOrEmpty)
 				.Select(c => c.Select(long.Parse).ToArray())

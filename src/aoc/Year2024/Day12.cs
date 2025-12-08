@@ -19,14 +19,14 @@ internal partial class Day12
 		MMMISSJEEE
 		""");
 
-	public char[,] Parse(string input)
+	public M<char> Parse(string input)
 	{
 		return Character.Letter.Map().Parse(input);
 	}
 
 	internal partial class Part1
 	{
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var remainingPlots = input.AsEnumerable().Select(x => x.point).ToHashSet();
 
@@ -36,7 +36,7 @@ internal partial class Day12
 				var start = remainingPlots.First();
 				// While traversing the graph, for each visited node, we not only determine its adjacent nodes 
 				// but also count how many of them lie outside this region.
-				var region = Dijkstra.StartWith((plot: start, plant: input.At(start), sides: (int?)null))
+				var region = Dijkstra.StartWith((plot: start, plant: input[start], sides: (int?)null))
 					.WithAdjacency(p =>
 					{
 						var dirs = Directions.All4();
@@ -44,7 +44,7 @@ internal partial class Day12
 						var (inside, outside) =
 							allAdj.Partition(adj => input.TryAt(adj, out var adjValue) && adjValue == p.plant);
 
-						return inside.Select(x => (x, input.At(x), (int?)null))
+						return inside.Select(x => (x, input[x], (int?)null))
 							.Append((p.plot, p.plant, outside.Count()));
 					}).Items()
 					.Where(x => x.sides is not null)
@@ -97,7 +97,7 @@ internal partial class Day12
 			EEEC
 			""", 80);
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var remainingPoints = input.AsEnumerable().ToHashSet();
 
@@ -112,7 +112,7 @@ internal partial class Day12
 
 						return dirs.Select(d => d + p)
 							.Where(adj => input.TryAt(adj, out var adjValue)
-							              && adjValue == input.At(p));
+							              && adjValue == input[p]);
 					})
 					.Items().ToList();
 

@@ -19,7 +19,7 @@ internal partial class Day06
 		......#...
 		""");
 
-	public char[,] Parse(string input)
+	public M<char> Parse(string input)
 	{
 		return Character.AnyChar.Map().Parse(input);
 	}
@@ -31,7 +31,7 @@ internal partial class Day06
 			Expect(example, 41);
 		}
 		
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var (guardPosition, _) = input.AsEnumerable().Single(x => x.element == '^');
 
@@ -49,7 +49,7 @@ internal partial class Day06
 			Expect(example, 6);
 		}
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var (guardPosition, _) = input.AsEnumerable().Single(x => x.element == '^');
 			var originalVisited =
@@ -68,7 +68,7 @@ internal partial class Day06
 		}
 	}
 
-	private static IEnumerable<(V pos, V dir)> WalkUntilOutside(char[,] map, V pos, V dir)
+	private static IEnumerable<(V pos, V dir)> WalkUntilOutside(M<char> map, V pos, V dir)
 	{
 		while (true)
 		{

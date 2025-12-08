@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Common;
 using Superpower.Model;
 // ReSharper disable once CheckNamespace
 using Superpower.Parsers;
@@ -157,7 +158,7 @@ public static partial class Combinators
 	/// <param name="parser">The parser.</param>
 	/// <param name="selector">A mapping from the tuple result.</param>
 	/// <returns>The resulting parser.</returns>
-	public static TextParser<R> Select<T, U, R>(this TextParser<(T, U)> parser, Func<T, U, R> selector)
+	public static TextParser<TRes> Select<T, U, TRes>(this TextParser<(T, U)> parser, Func<T, U, TRes> selector)
 	{
 		return parser.Select(x => selector(x.Item1, x.Item2));
 	}
@@ -168,7 +169,7 @@ public static partial class Combinators
 	/// <param name="parser">The parser.</param>
 	/// <param name="selector">A mapping from the tuple result.</param>
 	/// <returns>The resulting parser.</returns>
-	public static TextParser<R> Select<T1, T2, T3, R>(this TextParser<(T1, T2, T3)> parser, Func<T1, T2, T3, R> selector)
+	public static TextParser<TRes> Select<T1, T2, T3, TRes>(this TextParser<(T1, T2, T3)> parser, Func<T1, T2, T3, TRes> selector)
 	{
 		return parser.Select(x => selector(x.Item1, x.Item2, x.Item3));
 	}
@@ -179,7 +180,7 @@ public static partial class Combinators
 	/// <param name="parser">The parser.</param>
 	/// <param name="selector">A mapping from the tuple result.</param>
 	/// <returns>The resulting parser.</returns>
-	public static TextParser<R> Select<T1, T2, T3, T4, R>(this TextParser<(T1, T2, T3, T4)> parser, Func<T1, T2, T3, T4, R> selector)
+	public static TextParser<TRes> Select<T1, T2, T3, T4, TRes>(this TextParser<(T1, T2, T3, T4)> parser, Func<T1, T2, T3, T4, TRes> selector)
 	{
 		return parser.Select(x => selector(x.Item1, x.Item2, x.Item3, x.Item4));
 	}
@@ -191,19 +192,10 @@ public static partial class Combinators
 			return parser.Many().Lines();
 		}
 
-		public TextParser<T[,]> Map()
+		public TextParser<M<T>> Map()
 		{
 			return parser.MapJagged()
-				.Select(x =>
-				{
-					if (x.Length == 0)
-						return new T[0, 0];
-					var map = new T[x.Length, x[0].Length];
-					for (var i = 0; i < map.GetLength(0); i++)
-					for (var j = 0; j < map.GetLength(1); j++)
-						map[i, j] = x[i][j];
-					return map;
-				});
+				.Select(M.FromJagged);
 		}
 	}
 }

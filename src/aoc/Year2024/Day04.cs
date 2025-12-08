@@ -16,12 +16,12 @@ internal partial class Day04
 		MAMMMXMMMM
 		MXMXAXMASX
 		""");
-	public char[,] Parse(string input)
+	public M<char> Parse(string input)
 	{
 		return Character.Letter.Map().Parse(input);
 	}
 
-	private static int CountFormations(char[,] input, char[][,] formations)
+	private static int CountFormations(M<char> input, M<char>[] formations)
 	{
 		return input.AsEnumerable()
 			.Sum(x =>
@@ -36,7 +36,7 @@ internal partial class Day04
 			Expect(example, 18);
 		}
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var xmasFormations = new[]
 				{
@@ -67,7 +67,7 @@ internal partial class Day04
 			Expect(example, 9);
 		}
 
-		public int Solve(char[,] input)
+		public int Solve(M<char> input)
 		{
 			var xMas =
 				M.FromJagged([

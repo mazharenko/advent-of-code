@@ -6,12 +6,12 @@ namespace aoc.Year2024;
 [BypassNoExamples]
 internal partial class Day20
 {
-	public char[,] Parse(string input)
+	public M<char> Parse(string input)
 	{
 		return Character.AnyChar.Map().Parse(input);
 	}
 
-	private static int Solve(char[,] map, int shortcutLength)
+	private static int Solve(M<char> map, int shortcutLength)
 	{
 		var shortcuts =
 			map.AsEnumerable().Where(x => x.element != '#')
@@ -28,13 +28,13 @@ internal partial class Day20
 		var forward = Dijkstra.StartWith(start)
 			.WithAdjacency(x =>
 				Directions.All4().Select(d => d + x)
-					.Where(y => map.At(y) != '#'))
+					.Where(y => map[y] != '#'))
 			.ToDictionary(path => path.HeadItem, path => path.Len);
 
 		var backward = Dijkstra.StartWith(end)
 			.WithAdjacency(x =>
 				Directions.All4().Select(d => d + x)//todo: extension
-					.Where(y => map.At(y) != '#'))
+					.Where(y => map[y] != '#'))
 			.ToDictionary(path => path.HeadItem, path => path.Len);
 
 		var noShortcutsPath = forward[end];
@@ -46,11 +46,11 @@ internal partial class Day20
 
 	internal partial class Part1
 	{
-		public int Solve(char[,] input) => Solve(input, 2);
+		public int Solve(M<char> input) => Solve(input, 2);
 	}
 
 	internal partial class Part2
 	{
-		public int Solve(char[,] input) => Solve(input, 20);
+		public int Solve(M<char> input) => Solve(input, 20);
 	}
 }
