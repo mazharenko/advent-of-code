@@ -11,13 +11,26 @@ public static class EnumerableExtensions
 		}
 	}
 
-	public static IEnumerable<TResult> UniquePairs<T, TResult>(this IList<T> source, Func<T, T, TResult> resultSelector)
+	extension<T>(IList<T> source)
 	{
-		for (var i = 0; i < source.Count; i++)
-		for (var j = i + 1; j < source.Count; j++)
-			yield return resultSelector(source[i], source[j]);
+		public IEnumerable<TResult> UniquePairs<TResult>(Func<T, T, TResult> resultSelector)
+		{
+			for (var i = 0; i < source.Count; i++)
+			for (var j = i + 1; j < source.Count; j++)
+				yield return resultSelector(source[i], source[j]);
+		}
+
+		public IEnumerable<(T first, T second)> UniquePairs()
+			=> UniquePairs(source, (a, b) => (a, b));
 	}
-	
-	public static IEnumerable<(T first, T second)> UniquePairs<T>(this IList<T> source)
-		=> UniquePairs(source, (a, b) => (a, b));
+
+	extension<T>(IEnumerable<T> source)
+	{
+		public IEnumerable<TRes> Choose<TRes>(Func<T, Maybe<TRes>> chooser)
+		{
+			return source.Select(chooser)
+				.Where(m => m.HasValue)
+				.Select(m => m.Value);
+		}
+	}
 }
