@@ -50,4 +50,26 @@ public class TemplateTests
 		result.Value.Should().Be(3434);
 		result.Remainder.ToStringValue().Should().Be("v=9898");
 	}
+
+	[Test]
+	public void Should_Skip_Literal()
+	{
+		var parser = Template.Matching<string, string>(
+			$"{Character.AnyChar.Many().Text()}separator{Character.AnyChar.Many().Text()}"
+		);
+		var result = parser.AtEnd().TryParse("separatoseparatorseparato");
+		result.HasValue.Should().BeTrue();
+		result.Value.Should().Be(("separato", "separato"));
+	}
+	
+	[Test]
+	public void Should_Skip_Literal_FormattedValues_OneByOne()
+	{
+		var parser = Template.Matching<int, string>(
+			$"{Numerics.IntegerInt32}{Character.Letter.Many().Text()}literal"
+		);
+		var result = parser.AtEnd().TryParse("9245jlkakjsdfliteral");
+		result.HasValue.Should().BeTrue();
+		result.Value.Should().Be((9245, "jlkakjsdf"));
+	}
 }

@@ -116,33 +116,18 @@ internal partial class Day10
 				.Between(Character.EqualTo('('), Character.EqualTo(')'))
 				.ManyDelimitedBySpaces();
 
-		var parser = Span.EqualTo("[").IgnoreThen(targetParser)
-			.ThenIgnore(Span.EqualTo("]")).ThenIgnore(Span.WhiteSpace)
-			.Then(SpanX.ExceptSkip(" {").Apply(buttonParser))
-			.Then(Numerics.IntegerInt32.ManyDelimitedBy(Character.EqualTo(',')))
-			.ThenIgnore(Character.EqualTo('}'))
-			.Select(x =>
+		var joltageParser =
+			Numerics.IntegerInt32.ManyDelimitedBy(Character.EqualTo(','));
+
+		var parser = Template.Matching<bool[], int[][], int[]>($"[{targetParser}] {buttonParser} {{{joltageParser}}}")
+			.Select((lightsDiagram, buttons, joltage) =>
 			{
-				var ((lightsDiagram, buttons), joltage) = x;
 				var lights = lightsDiagram.Select((l, i) =>
 				{
 					return new Light(l, joltage[i], buttons.Index().Where(b => b.Item.Contains(i)).Select(b => b.Index).ToArray());
 				}).ToArray();
 				return new InitProcedure(lights);
 			});
-
-		// todo improve Template parser
-		// var parser = Template
-		// 	.Matching<bool[], int[][], int[]>(
-		// 		$"[{targetParser}] {buttonParser} {{{Numerics.IntegerInt32.ManyDelimitedBy(Character.EqualTo(','))}}}")
-		// 	.Select((lightsDiagram, buttons, joltage) =>
-		// 	{
-		// 		var lights = lightsDiagram.Select((l, i) =>
-		// 		{
-		// 			return new Light(l, joltage[i], buttons.Index().Where(b => b.Item.Contains(i)).Select(b => b.Index).ToArray());
-		// 		}).ToArray();
-		// 		return new InitProcedure(lights);
-		// 	});
 
 		return parser.Lines().Parse(input);
 	}
