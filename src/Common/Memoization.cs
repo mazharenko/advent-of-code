@@ -58,4 +58,20 @@ public static class Memoization
 			return res;
 		}
 	}
+	
+	public static Func<T1, T2, T3, TRes> MemoizeRec<T1, T2, T3, TRes>(this Func<Func<T1, T2, T3, TRes>, T1, T2, T3, TRes> func)
+	{
+		var cache = new Dictionary<(T1, T2, T3), TRes>();
+		
+		return FuncImpl;
+
+		TRes FuncImpl(T1 x1, T2 x2, T3 x3) 
+		{
+			if (cache.TryGetValue((x1, x2, x3), out var res))
+				return res;
+			res = func(FuncImpl, x1, x2, x3);
+			cache[(x1, x2, x3)] = res;
+			return res;
+		}
+	}
 }
