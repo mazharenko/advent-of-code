@@ -70,7 +70,7 @@ public static partial class Combinators
 			return untilSeparatorParser.Apply(parser).ThenIgnore(SpanX.BlockSeparator.Optional());
 		}
 
-		private TextParser<T> Line()
+		public TextParser<T> Line()
 		{
 			TextParser<TextSpan> untilSeparatorParser = input =>
 			{
