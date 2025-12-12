@@ -2,6 +2,8 @@
 [Bb]in/
 *.suo
 
+.aoc_tiles/*
+!.aoc_tiles/tiles/
 
 .idea/
 .vscode/

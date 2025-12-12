@@ -2,6 +2,45 @@
 
 Here are my solutions for the [Advent of Code event](https://adventofcode.com/).
 
+## :two::zero::two::five:
+
+This year I gave in to the AI hype and tried to build an AI workflow of solving AoC puzzles. Not to delegate writing code to LLMs, but to automate procesess such as:
+1. Downloading an input file
+2. Running an application, feeding the input file to it
+3. Interpreting arbitrary application output
+4. Submitting answers
+5. Updating test cases
+
+Opencode agent equipped with a [custom MCP server](https://github.com/mazharenko/aoc-mcp) worked [fairly well](https://opencode.ai/s/RcWW2bG2). 
+
+However, using [aoc-agent](https://github.com/mazharenko/aoc-agent) guarantees the fastest submission.
+
+The Superpower extensions received two important updates:
+1. `Lines` and `Lines`-based parsers now effectively split a `TextSpan` (with `ExceptSkip` instead of `ThenIgnore`), which allows combining `Characters.AnyChar` with new lines.
+   ```csharp
+   // line breaks fall into the AnyChar category, but on each line only that line is visible to the parser
+   Character.AnyChar.Map();
+   ```
+2. Similarly, `Template` parsers effectively split the interpolated string by literals which prevents the injected parses from messing up with literals. 
+   ```csharp
+   // the ' ' (space) literal is invisible to the first parser 
+   Template.Matching<int[], int>($"{Numerics.Integer32.ManyDelimitedBySpaces()} {{{Numerics.Integer32}}}")
+   ```
+
+
+<a href="src/aoc/Year2025/Day01.cs"><img src=".aoc_tiles/tiles/2025/01.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day02.cs"><img src=".aoc_tiles/tiles/2025/02.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day03.cs"><img src=".aoc_tiles/tiles/2025/03.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day04.cs"><img src=".aoc_tiles/tiles/2025/04.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day05.cs"><img src=".aoc_tiles/tiles/2025/05.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day06.cs"><img src=".aoc_tiles/tiles/2025/06.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day07.cs"><img src=".aoc_tiles/tiles/2025/07.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day08.cs"><img src=".aoc_tiles/tiles/2025/08.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day09.cs"><img src=".aoc_tiles/tiles/2025/09.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day10.cs"><img src=".aoc_tiles/tiles/2025/10.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day11.cs"><img src=".aoc_tiles/tiles/2025/11.png" width="161px"></a>
+<a href="src/aoc/Year2025/Day12.cs"><img src=".aoc_tiles/tiles/2025/12.png" width="161px"></a>
+
 ## :two::zero::two::four:
 
 I had been missing various features of C#. At the same time, I was wondering how well I could handle situations where I had previously relied heavily on specific features of F#. So, this year, I decided to solve the AoC puzzles in C#. And I would catch myself willing to have type aliases / tail recursion / structural equality / whatever, but generally speaking, it was a more comfortable experience, especially since I did not have to push myself to avoid using an imperative style.
