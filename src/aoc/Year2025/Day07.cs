@@ -19,16 +19,18 @@ internal partial class Day07
 			
 			for (var i = start.X; i < input.Height; i++)
 			{
-				foreach (var beamY in beamYs.ToList())
+				var newBeamYs = new HashSet<int>();
+				foreach (var beamY in beamYs)
 				{
 					if (input[i, beamY] == '^')
 					{
-						beamYs.Remove(beamY);
-						beamYs.Add(beamY - 1);
-						beamYs.Add(beamY + 1);
+						newBeamYs.Add(beamY - 1);
+						newBeamYs.Add(beamY + 1);
 						splits++;
 					}
+					else newBeamYs.Add(beamY);
 				}
+				beamYs = newBeamYs;
 			}
 
 			return splits;
@@ -42,8 +44,6 @@ internal partial class Day07
 			Expect(example, 40);
 		}
 
-		// все-таки рекурсия, но только если получится иммутабельность. разветлители можно хэшсетом, а лучи координатами нормальными
-		// ну есть же immutable dictionary
 		public long Solve(M<char> input)
 		{
 			var start = input.AsEnumerable() .First(x => x.element == 'S').point;
